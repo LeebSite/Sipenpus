@@ -16,6 +16,7 @@ class Book extends Model
         'jumlah_halaman',
         'kategori',
         'deskripsi',
+        'gambar',
         'status',
     ];
 
@@ -31,3 +32,4 @@ class Book extends Model
         return $this->quantity > 0 && $this->status === 'available';
     }
 }
+

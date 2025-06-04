@@ -13,7 +13,9 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\FileUpload;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Filters\SelectFilter;
 
 class BookResource extends Resource
@@ -53,10 +55,19 @@ class BookResource extends Resource
                 Select::make('kategori')
                     ->options([
                         'novel' => 'Novel',
+                        'fiksi' => 'Fiksi',
+                        'filsafat' => 'Filsafat',
+                        'fiksi' => 'Fiksi',
                         'komik' => 'Komik',
                         'ilmiah' => 'Ilmiah',
                     ])
                     ->required(),
+                FileUpload::make('gambar')
+                    ->image()
+                    ->directory('books')
+                    ->disk('public')
+                    ->visibility('public')
+                    ->label('Gambar Buku'),
                 Textarea::make('deskripsi')
                     ->label('Deskripsi')
                     ->columnSpanFull(),
@@ -74,6 +85,16 @@ class BookResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('gambar')
+                    ->label('Gambar')
+                    ->formatStateUsing(function ($state) {
+                        if (!$state) return 'No Image';
+                        
+                        // Gunakan URL absolut
+                        $url = asset('storage/' . $state);
+                        return "<img src='{$url}' width='50' height='50' style='border-radius: 50%'>";
+                    })
+                    ->html(),
                 TextColumn::make('kode_buku')
                     ->label('Kode Buku')
                     ->searchable()
@@ -89,9 +110,12 @@ class BookResource extends Resource
                 TextColumn::make('kategori')
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
-                        'novel' => 'primary',
-                        'komik' => 'warning',
-                        'ilmiah' => 'success',
+                        'novel' => 'info',
+                        'fiksi' => 'info',
+                        'filsafat' => 'info',
+                        'fiksi' => 'info',
+                        'komik' => 'info',
+                        'ilmiah' => 'info',
                     }),
                 TextColumn::make('status')
                     ->badge()
@@ -140,3 +164,7 @@ class BookResource extends Resource
         ];
     }
 }
+
+
+
+

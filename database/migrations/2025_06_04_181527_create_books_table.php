@@ -22,6 +22,7 @@ public function up(): void
         $table->integer('jumlah_halaman');
         $table->string('kategori');
         $table->string('deskripsi')->nullable();
+        $table->string('gambar')->nullable();
         $table->enum('status', ['available', 'unavailable'])->default('available');
         $table->timestamps();
     });
@@ -36,3 +37,4 @@ public function up(): void
         Schema::dropIfExists('books');
     }
 };
+
