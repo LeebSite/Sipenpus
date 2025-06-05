@@ -276,10 +276,25 @@
                 </nav>
             </div>
         </div>
-    </header>
+    </header>   
 
     <!-- Hero -->
-
+    <section class="relative h-[90vh] bg-cover bg-center" style="background-image: url('{{ asset('img/gambarperpus1.jpg') }}');">
+        <div class="absolute inset-0 bg-gradient-to-r from-black to-purple-900 bg-opacity-70 flex items-center">
+            <div class="container mx-auto px-4 md:px-8 text-white">
+                <div class="max-w-2xl pl-0 md:pl-8" data-aos="fade-right" data-aos-duration="1000">
+                    <h2 class="text-3xl sm:text-5xl lg:text-6xl font-bold mb-3 font-heading leading-tight">Sistem Informasi Peminjaman Buku Perpustakaan</h2>
+                    <h3 class="text-accent-400 font-semibold text-xl sm:text-2xl mb-6 font-heading">MAN 3 Pekanbaru</h3>
+                    <p class="text-sm sm:text-base mb-8 text-gray-200 max-w-xl">Kelola peminjaman buku perpustakaan dengan mudah. Telusuri koleksi, pinjam buku, dan akses laporan dalam satu platform terintegrasi.</p>
+                    <a href="{{ url('/login') }}" class="bg-primary-600 hover:bg-primary-700 text-white px-6 py-3 rounded-lg shadow-lg hover:shadow-xl transition-all inline-flex items-center group">
+                        Mulai Sekarang
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2 transform group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
         
         <!-- Scroll indicator -->
         <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
