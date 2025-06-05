@@ -34,6 +34,9 @@ class AdminPanelProvider extends PanelProvider
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
                 Pages\Dashboard::class,
+                \App\Filament\Pages\MemberBooks::class,
+                \App\Filament\Pages\EmployeeDashboard::class,
+                \App\Filament\Pages\MemberDashboard::class,
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
@@ -57,4 +60,5 @@ class AdminPanelProvider extends PanelProvider
             ->authGuard('web'); // Memastikan menggunakan guard yang sama
     }
 }
+
 

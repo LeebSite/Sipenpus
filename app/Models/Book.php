@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Carbon\Carbon;
 
 class Book extends Model
 {
@@ -19,8 +21,12 @@ class Book extends Model
         'gambar',
         'status',
     ];
+    
+    protected $casts = [
+        'tanggal_terbit' => 'date',
+    ];
 
-        // Relasi dengan peminjaman buku
+    // Relasi dengan peminjaman buku
     public function loans(): HasMany
     {
         return $this->hasMany(Loan::class);
@@ -29,7 +35,8 @@ class Book extends Model
     // Accessor untuk mengecek ketersediaan buku
     public function getIsAvailableAttribute(): bool 
     {
-        return $this->quantity > 0 && $this->status === 'available';
+        return $this->status === 'available';
     }
 }
+
 
