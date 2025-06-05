@@ -14,11 +14,6 @@
                 <h3 class="text-lg font-semibold text-green-800 dark:text-green-200">Total Buku</h3>
                 <p class="text-2xl font-bold text-green-700 dark:text-green-100">{{ \App\Models\Book::count() ?? 0 }}</p>
             </div>
-            
-            <!-- <div class="bg-purple-100 dark:bg-purple-900 p-4 rounded shadow">
-                <h3 class="text-lg font-semibold text-purple-800 dark:text-purple-200">Total Peminjaman</h3>
-                <p class="text-2xl font-bold text-purple-700 dark:text-purple-100">{{ \App\Models\Loan::count() ?? 0 }}</p>
-            </div> -->
         </div>
         
         <!-- Konten khusus admin
