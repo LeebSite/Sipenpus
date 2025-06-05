@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="light">
+<html lang="<?php echo e(str_replace('_', '-', app()->getLocale())); ?>" class="light">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -41,7 +41,7 @@
     <header class="py-6 bg-white shadow">
         <div class="container mx-auto px-4 flex justify-between items-center pl-20 pr-20">
             <div class="flex items-center space-x-3">
-                <img src="{{ asset('img/man3pekanbaru.png') }}" alt="Sipenpus Logo" class="h-12 w-12">
+                <img src="<?php echo e(asset('img/man3pekanbaru.png')); ?>" alt="Sipenpus Logo" class="h-12 w-12">
                 <div>
                     <h1 class="text-xl font-bold text-purple-800">Sipenpus</h1>
                     <p class="text-xs font-semibold text-orange-500 tracking-wide uppercase">Perpustakaan Ismail Marzuki MAN 3 Kota Pekanbaru</p>
@@ -50,8 +50,8 @@
             <nav class="flex items-center space-x-4 text-sm font-semibold">
                 <a href="#features" class="hover:text-purple-800">Fitur Kami</a>
                 <a href="#contact" class="hover:text-purple-800">Contact</a>
-                @auth
-                    @php
+                <?php if(auth()->guard()->check()): ?>
+                    <?php
                         $dashboardUrl = url('/dashboard');
                         $user = auth()->user();
                         
@@ -60,25 +60,25 @@
                         } elseif ($user->role === 'member') {
                             $dashboardUrl = url('/member-dashboard');
                         }
-                    @endphp
-                    <a href="{{ $dashboardUrl }}" class="px-4 py-2 rounded bg-blue-600 hover:bg-blue-700 text-white">Dashboard</a>
-                @else
-                    <a href="{{ url('/login') }}" class="px-4 py-2 rounded border border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white">Login</a>
-                @endauth
+                    ?>
+                    <a href="<?php echo e($dashboardUrl); ?>" class="px-4 py-2 rounded bg-blue-600 hover:bg-blue-700 text-white">Dashboard</a>
+                <?php else: ?>
+                    <a href="<?php echo e(url('/login')); ?>" class="px-4 py-2 rounded border border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white">Login</a>
+                <?php endif; ?>
             </nav>
         </div>
     </header>
 
     
     <!-- Hero -->
-    <section class="relative h-[90vh] bg-cover bg-center" style="background-image: url('{{ asset('img/gambarperpus1.jpg') }}');">
+    <section class="relative h-[90vh] bg-cover bg-center" style="background-image: url('<?php echo e(asset('img/gambarperpus1.jpg')); ?>');">
         <div class="absolute inset-0 bg-black bg-opacity-60 flex items-center">
             <div class="container mx-auto px-4 text-white">
                 <div class="max-x-l pl-8">
                     <h2 class="text-2xl sm:text-5xl font-bold mb-2">Sistem Informasi Peminjaman Buku Perpustakaan</h2>
                     <h3 class="text-orange-500 font-semibold text-2xl mb-5">MAN 3 Pekanbaru</h3>
                     <p class="text-sm sm:text-base mb-6">Kelola peminjaman buku perpustakaan dengan mudah. Telusuri koleksi, pinjam buku, dan akses laporan dalam satu platform.</p>
-                    <a href="{{ url('/login') }}" class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-3 rounded">Mulai Sekarang</a>
+                    <a href="<?php echo e(url('/login')); ?>" class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-3 rounded">Mulai Sekarang</a>
                 </div>
             </div>
         </div>
@@ -90,11 +90,12 @@
         <div class="container mx-auto px-4 text-center">
             <h2 class="text-2xl font-bold mb-10 text-purple-800">Pilih subjek yang menarik bagi kamu yaa..</h2>
             <div class="flex flex-wrap justify-center gap-4 max-w-4xl mx-auto">
-                @foreach (['Sejarah dan Sosial', 'Filsafat', 'Sains', 'Fiksi', 'Lihat lainnya..'] as $subjek)
+                <?php $__currentLoopData = ['Sejarah dan Sosial', 'Filsafat', 'Sains', 'Fiksi', 'Lihat lainnya..']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $subjek): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                     <div class="border border-purple-400 rounded-lg w-32 h-32 flex items-center justify-center text-center text-purple-900 font-semibold text-xs hover:bg-purple-50 transition">
-                        {{ $subjek }}
+                        <?php echo e($subjek); ?>
+
                     </div>
-                @endforeach
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             </div>
         </div>
     </section>
@@ -146,3 +147,4 @@
 </div>
 </body>
 </html>
+<?php /**PATH C:\laragon\www\sipenpus\resources\views/welcome.blade.php ENDPATH**/ ?>
