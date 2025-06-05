@@ -163,6 +163,11 @@ class BookResource extends Resource
             'edit' => Pages\EditBook::route('/{record}/edit'),
         ];
     }
+
+    public static function canViewAny(): bool
+    {
+        return auth()->user()->role === 'admin' || auth()->user()->role === 'employee';
+    }
 }
 
 
