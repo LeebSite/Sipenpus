@@ -276,7 +276,7 @@
                 </nav>
             </div>
         </div>
-    </header>
+    </header>   
 
     <!-- Hero -->
     <section class="relative h-[90vh] bg-cover bg-center" style="background-image: url('<?php echo e(asset('img/gambarperpus1.jpg')); ?>');">
