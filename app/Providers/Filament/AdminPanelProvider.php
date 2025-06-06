@@ -47,6 +47,7 @@ class AdminPanelProvider extends PanelProvider
             ->pages([
                 Pages\Dashboard::class,
                 \App\Filament\Pages\MemberBooks::class,
+                \App\Filament\Pages\MemberLoans::class,
                 \App\Filament\Pages\EmployeeDashboard::class,
                 \App\Filament\Pages\MemberDashboard::class,
             ])
@@ -72,6 +73,7 @@ class AdminPanelProvider extends PanelProvider
             ->authGuard('web');
     }
 }
+
 
 
 
