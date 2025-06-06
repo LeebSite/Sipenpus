@@ -337,7 +337,7 @@
 
     <!-- Features -->
     <section id="features" class="py-20 bg-gray-50">
-        <div class="container mx-auto px-4 md:px-8">
+        <div class="container mx-auto px-4 md:px-8 text-center">
             <h2 class="text-3xl font-bold text-center text-primary-900 section-heading font-heading mb-12" data-aos="fade-up">Fitur Utama Kami</h2>
             <p class="text-gray-600 max-w-xl mx-auto text-center mb-12" data-aos="fade-up" data-aos-delay="100">Nikmati kemudahan dalam mengelola perpustakaan dengan fitur-fitur unggulan yang kami tawarkan</p>
             
