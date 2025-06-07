@@ -15,8 +15,18 @@ class EditLoan extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
-            Actions\DeleteAction::make(),
+            Actions\DeleteAction::make()->label('Hapus'),
         ];
+    }
+    
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
+    }
+    
+    protected function getSavedNotificationTitle(): ?string
+    {
+        return 'Peminjaman berhasil diperbarui';
     }
     
     protected function handleRecordUpdate(Model $record, array $data): Model
