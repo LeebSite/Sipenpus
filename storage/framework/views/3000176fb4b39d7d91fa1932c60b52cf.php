@@ -9,7 +9,7 @@
 <?php endif; ?>
 <?php $component->withAttributes([]); ?>
     <div class="p-4 bg-white rounded shadow dark:bg-gray-800 dark:text-white">
-        <h1 class="text-2xl font-bold mb-4 dark:text-white">Riwayat Peminjaman Buku</h1>
+        <h1 class="text-2xl font-bold mb-6 dark:text-white">Riwayat Peminjaman Buku</h1>
         
         <?php echo e($this->table); ?>
 
@@ -23,4 +23,7 @@
 <?php if (isset($__componentOriginal166a02a7c5ef5a9331faf66fa665c256)): ?>
 <?php $component = $__componentOriginal166a02a7c5ef5a9331faf66fa665c256; ?>
 <?php unset($__componentOriginal166a02a7c5ef5a9331faf66fa665c256); ?>
-<?php endif; ?><?php /**PATH C:\laragon\www\sipenpus\resources\views/filament/pages/member-loans.blade.php ENDPATH**/ ?>
+<?php endif; ?>
+
+
+<?php /**PATH C:\laragon\www\sipenpus\resources\views/filament/pages/member-loans.blade.php ENDPATH**/ ?>

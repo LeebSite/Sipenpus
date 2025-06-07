@@ -202,7 +202,7 @@ class LoanResource extends Resource
 
     public static function canViewAny(): bool
     {
-        return true; // All users can view loans, but members will only see their own
+        return auth()->user()->role === 'admin' || auth()->user()->role === 'employee';
     }
 }
 
