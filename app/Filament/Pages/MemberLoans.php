@@ -17,7 +17,7 @@ class MemberLoans extends Page implements HasTable
     protected static ?string $navigationIcon = 'heroicon-o-clipboard-document-list';
     protected static ?string $navigationLabel = 'Peminjaman Saya';
     protected static ?string $title = 'Riwayat Peminjaman';
-    protected static ?string $navigationGroup = 'Library';
+    protected static ?string $navigationGroup = 'Perpustakaan';
     
     protected static string $view = 'filament.pages.member-loans';
     
@@ -62,10 +62,19 @@ class MemberLoans extends Page implements HasTable
                         'returned' => 'success',
                         'rejected' => 'danger',
                         'overdue' => 'danger',
+                    })
+                    ->formatStateUsing(fn (string $state): string => match ($state) {
+                        'pending' => 'Menunggu Persetujuan',
+                        'active' => 'Dipinjam',
+                        'returned' => 'Dikembalikan',
+                        'rejected' => 'Ditolak',
+                        'overdue' => 'Terlambat',
+                        default => $state,
                     }),
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('status')
+                    ->label('Status')
                     ->options([
                         'pending' => 'Menunggu Persetujuan',
                         'active' => 'Dipinjam',
