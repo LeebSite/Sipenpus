@@ -12,6 +12,16 @@ class CreateLoan extends CreateRecord
 {
     protected static string $resource = LoanResource::class;
     
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
+    }
+    
+    protected function getCreatedNotificationTitle(): ?string
+    {
+        return 'Peminjaman berhasil dibuat';
+    }
+    
     protected function handleRecordCreation(array $data): Model
     {
         // Update book status to unavailable if loan is active
