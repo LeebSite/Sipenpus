@@ -19,6 +19,8 @@ class LoanResource extends Resource
     protected static ?string $model = Loan::class;
     protected static ?string $navigationIcon = 'heroicon-o-clipboard-document-list';
     protected static ?string $navigationLabel = 'Peminjaman';
+    protected static ?string $pluralModelLabel = 'Peminjaman';
+    protected static ?string $modelLabel = 'Peminjaman';
     protected static ?string $navigationGroup = 'Transaksi';
     protected static ?int $navigationSort = 1;
 
@@ -55,6 +57,7 @@ class LoanResource extends Resource
                         'overdue' => 'Terlambat',
                     ])
                     ->required()
+                    ->label('Status')
                     ->default('pending'),
                 Forms\Components\Textarea::make('notes')
                     ->label('Catatan')
@@ -97,14 +100,24 @@ class LoanResource extends Resource
                         'returned' => 'success',
                         'rejected' => 'danger',
                         'overdue' => 'danger',
+                    })
+                    ->formatStateUsing(fn (string $state): string => match ($state) {
+                        'pending' => 'Menunggu Persetujuan',
+                        'active' => 'Dipinjam',
+                        'returned' => 'Dikembalikan',
+                        'rejected' => 'Ditolak',
+                        'overdue' => 'Terlambat',
+                        default => $state,
                     }),
                 Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
+                    ->label('Dibuat Pada')
+                    ->dateTime('d M Y H:i')
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 SelectFilter::make('status')
+                    ->label('Status')
                     ->options([
                         'pending' => 'Menunggu Persetujuan',
                         'active' => 'Dipinjam',
@@ -114,7 +127,7 @@ class LoanResource extends Resource
                     ]),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make()->label('Edit'),
                 Tables\Actions\Action::make('approve')
                     ->label('Setujui')
                     ->icon('heroicon-o-check')
@@ -154,7 +167,7 @@ class LoanResource extends Resource
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                    Tables\Actions\DeleteBulkAction::make()->label('Hapus'),
                 ]),
             ]);
     }
@@ -189,6 +202,7 @@ class LoanResource extends Resource
 
     public static function canViewAny(): bool
     {
-        return auth()->user()->role === 'admin' || auth()->user()->role === 'employee';
+        return true; // All users can view loans, but members will only see their own
     }
 }
+

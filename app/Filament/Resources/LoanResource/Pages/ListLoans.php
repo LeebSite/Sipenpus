@@ -16,7 +16,7 @@ class ListLoans extends ListRecords
         // Only admin and employee can create loans directly
         if (Auth::user()->role === 'admin' || Auth::user()->role === 'employee') {
             return [
-                Actions\CreateAction::make(),
+                Actions\CreateAction::make()->label('Tambah Peminjaman'),
             ];
         }
         
