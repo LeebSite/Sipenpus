@@ -1,220 +1,126 @@
 <x-filament-panels::page>
-    <div class="p-6 bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 rounded-xl shadow-sm">
-        <!-- Header -->
-        <div class="mb-8">
-            <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-2">
-                <i class="fas fa-search mr-3 text-blue-600"></i>Cari Buku
-            </h1>
-            <p class="text-gray-600 dark:text-gray-400">Temukan buku favorit Anda dari koleksi perpustakaan</p>
-        </div>
-        
-        <!-- Search and Filter Section -->
-        <div class="mb-8 bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700">
-            <div class="flex flex-col lg:flex-row gap-6">
-                <!-- Search Input -->
-                <div class="flex-1">
-                    <label for="search" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">
-                        <i class="fas fa-book-open mr-2 text-blue-500"></i>Pencarian Buku
-                    </label>
-                    <div class="relative">
-                        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                            <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
-                            </svg>
-                        </div>
-                        <input 
-                            wire:model.live.debounce.300ms="search" 
-                            type="text" 
-                            id="search" 
-                            class="pl-12 pr-4 py-3 block w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-all duration-200" 
-                            placeholder="Cari berdasarkan judul, penulis, atau ISBN..."
-                        >
+    <div class="p-6 bg-white rounded-xl shadow-sm dark:bg-gray-800">
+        <div class="bg-white dark:bg-gray-700 rounded-xl shadow-md overflow-hidden border border-gray-100 dark:border-gray-600">
+            <div class="md:flex">
+                <!-- Book Cover Section -->
+                <div class="md:w-1/3 p-6 flex flex-col">
+                    <div class="bg-gray-50 dark:bg-gray-600 rounded-xl overflow-hidden h-80 flex items-center justify-center shadow-inner">
+                        @if($book->gambar)
+                            <img 
+                                src="{{ asset('storage/' . $book->gambar) }}" 
+                                alt="{{ $book->judul }}" 
+                                class="w-full h-full object-contain"
+                                loading="lazy"
+                            >
+                        @else
+                            <div class="text-center p-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-24 w-24 text-gray-300 dark:text-gray-500 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                                </svg>
+                                <p class="text-gray-400 dark:text-gray-500">Gambar tidak tersedia</p>
+                            </div>
+                        @endif
                     </div>
                 </div>
                 
-                <!-- Category Filter -->
-                <div class="lg:w-80">
-                    <label for="kategori" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">
-                        <i class="fas fa-filter mr-2 text-purple-500"></i>Filter Kategori
-                    </label>
-                    <select 
-                        wire:model.live="kategori" 
-                        id="kategori" 
-                        class="block w-full py-3 px-4 rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-purple-500 focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50 transition-all duration-200"
-                    >
-                        <option value="">📚 Semua Kategori</option>
-                        @foreach($categories as $value => $label)
-                            <option value="{{ $value }}">{{ $label }}</option>
-                        @endforeach
-                    </select>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Books Grid -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6">
-            @if($books->count() > 0)
-                @foreach($books as $book)
-                    <div class="group bg-white dark:bg-gray-800 rounded-xl shadow-sm hover:shadow-xl border border-gray-100 dark:border-gray-700 overflow-hidden transition-all duration-300 hover:-translate-y-2">
-                        <!-- Book Cover -->
-                        <div class="relative h-64 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800 overflow-hidden">
-                            @if($book->gambar)
-                                <img 
-                                    src="{{ asset('storage/' . $book->gambar) }}" 
-                                    alt="{{ $book->judul }}" 
-                                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                                >
+                <!-- Book Details Section -->
+                <div class="md:w-2/3 p-6 border-t md:border-t-0 md:border-l border-gray-100 dark:border-gray-600">
+                    <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">{{ $book->judul }}</h2>
+                    <div class="space-y-4">
+                        <!-- Status Badge -->
+                        <div class="flex items-center">
+                            <span class="text-sm font-medium text-gray-500 dark:text-gray-400 w-32">Status:</span>
+                            @if($hasPendingLoan)
+                                <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200 border border-purple-200 dark:border-purple-800">
+                                    <svg class="w-4 h-4 mr-1.5" fill="currentColor" viewBox="0 0 20 20">
+                                        <path d="M10 2a8 8 0 100 16 8 8 0 000-16zm0 14a6 6 0 110-12 6 6 0 010 12zm1-6a1 1 0 11-2 0V7a1 1 0 112 0v3z"/>
+                                    </svg>
+                                    Menunggu Persetujuan
+                                </span>
                             @else
-                                <div class="w-full h-full flex items-center justify-center">
-                                    <div class="text-center">
-                                        <i class="fas fa-book text-4xl text-gray-400 dark:text-gray-500 mb-2"></i>
-                                        <p class="text-xs text-gray-500 dark:text-gray-400 font-medium">No Cover</p>
-                                    </div>
-                                </div>
+                                <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium {{ $book->status === 'available' ? 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200 border border-purple-200 dark:border-purple-800' : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200 border border-red-200 dark:border-red-800' }}">
+                                    <svg class="w-4 h-4 mr-1.5" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                    </svg>
+                                    {{ $book->status === 'available' ? 'Tersedia' : 'Tidak Tersedia' }}
+                                </span>
                             @endif
-                            
-                            <!-- Category Badge -->
-                            <div class="absolute top-3 left-3">
-                                <span class="px-2 py-1 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm text-xs font-semibold text-gray-700 dark:text-gray-300 rounded-full border border-gray-200 dark:border-gray-600">
-                                    {{ ucfirst($book->kategori) }}
-                                </span>
-                            </div>
-                            
-                            <!-- Pages Badge -->
-                            <div class="absolute top-3 right-3">
-                                <span class="px-2 py-1 bg-blue-500/90 backdrop-blur-sm text-xs font-semibold text-white rounded-full">
-                                    {{ $book->jumlah_halaman }} hal
-                                </span>
-                            </div>
                         </div>
-                        
-                        <!-- Book Details -->
-                        <div class="p-4">
-                            <!-- Title -->
-                            <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-2 line-clamp-2 min-h-[3.5rem] leading-tight">
-                                {{ $book->judul }}
-                            </h3>
-                            
-                            <!-- Author -->
-                            <p class="text-sm text-gray-600 dark:text-gray-400 mb-3 flex items-center">
-                                <i class="fas fa-user-edit mr-2 text-gray-400"></i>
-                                <span class="truncate">{{ $book->penulis }}</span>
+
+                        <!-- Book Info -->
+                        @foreach([
+                            'Penulis' => $book->penulis,
+                            'Penerbit' => $book->penerbit,
+                            'ISBN' => $book->isbn ?? 'Tidak tersedia',
+                            'Kode Buku' => $book->kode_buku,
+                            'Tanggal Terbit' => $book->tanggal_terbit ? $book->tanggal_terbit->format('d M Y') : 'Tidak tersedia',
+                            'Jumlah Halaman' => $book->jumlah_halaman . ' halaman'
+                        ] as $label => $value)
+                            <div class="flex items-center p-3 bg-gray-50 dark:bg-gray-600/50 rounded-lg">
+                                <span class="text-sm font-medium text-gray-500 dark:text-gray-400 w-32">{{ $label }}:</span>
+                                <span class="text-sm text-gray-900 dark:text-white">{{ $value }}</span>
+                            </div>
+                        @endforeach
+
+                        <!-- Category Badge -->
+                        <div class="flex items-center p-3 bg-gray-50 dark:bg-gray-600/50 rounded-lg">
+                            <span class="text-sm font-medium text-gray-500 dark:text-gray-400 w-32">Kategori:</span>
+                            <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-200">
+                                {{ ucfirst($book->kategori) }}
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <!-- Description Section -->
+                    <div class="mt-6">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-3">Deskripsi</h3>
+                        <div class="p-4 bg-gray-50 dark:bg-gray-600/50 rounded-lg">
+                            <p class="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">
+                                {{ $book->deskripsi ?? 'Deskripsi tidak tersedia untuk buku ini.' }}
                             </p>
-                            
-                            <!-- Description -->
-                            <p class="text-sm text-gray-700 dark:text-gray-300 mb-4 line-clamp-3 min-h-[4.5rem] leading-relaxed">
-                                {{ $book->deskripsi ?? 'Deskripsi tidak tersedia untuk buku ini. Silakan lihat detail lengkap untuk informasi lebih lanjut.' }}
-                            </p>
-                            
-                            <!-- Action Button -->
-                            <div class="flex justify-between items-center pt-3 border-t border-gray-100 dark:border-gray-700">
-                                <div class="flex items-center text-xs text-gray-500 dark:text-gray-400">
-                                    <i class="fas fa-eye mr-1"></i>
-                                    <span>Detail</span>
-                                </div>
-                                <a 
-                                    href="{{ route('book.detail', $book->id) }}" 
-                                    class="inline-flex items-center px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white text-sm font-semibold rounded-lg transition-all duration-200 hover:scale-105 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+                        </div>
+                        <!-- Loan Request Button Section - Moved here -->
+                        <div class="mt-6">
+                            @if($hasPendingLoan)
+                                <button disabled class="w-full px-6 py-3 bg-purple-400 text-white font-medium rounded-xl cursor-not-allowed shadow-md hover:shadow-lg transition-all duration-200 flex items-center justify-center space-x-2 border border-purple-500">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                    <span>Menunggu Persetujuan</span>
+                                </button>
+                            @elseif($book->status === 'available')
+                                <button 
+                                    wire:click="requestLoan"
+                                    class="w-full px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-xl shadow-md hover:shadow-lg transition-all duration-200 flex items-center justify-center space-x-2 border border-purple-700"
                                 >
-                                    <i class="fas fa-arrow-right mr-2"></i>
-                                    Lihat
-                                </a>
-                            </div>
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+                                    </svg>
+                                    <span>Ajukan Peminjaman</span>
+                                </button>
+                            @else
+                                <button disabled class="w-full px-6 py-3 bg-gray-400 text-white font-medium rounded-xl cursor-not-allowed shadow-md flex items-center justify-center space-x-2 border border-gray-500">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                    <span>Buku Tidak Tersedia</span>
+                                </button>
+                            @endif
                         </div>
                     </div>
-                @endforeach
-            @else
-                <!-- Empty State -->
-                <div class="col-span-full py-16 text-center">
-                    <div class="max-w-md mx-auto">
-                        <div class="bg-gray-100 dark:bg-gray-700 rounded-full w-24 h-24 flex items-center justify-center mx-auto mb-6">
-                            <i class="fas fa-search text-3xl text-gray-400 dark:text-gray-500"></i>
-                        </div>
-                        <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">Tidak ada buku ditemukan</h3>
-                        <p class="text-gray-500 dark:text-gray-400 mb-6">
-                            Maaf, tidak ada buku yang sesuai dengan kriteria pencarian Anda. Coba gunakan kata kunci yang berbeda.
-                        </p>
-                        <div class="flex flex-col sm:flex-row gap-3 justify-center">
-                            <button 
-                                wire:click="$set('search', '')" 
-                                class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors duration-200"
-                            >
-                                <i class="fas fa-refresh mr-2"></i>Reset Pencarian
-                            </button>
-                            <button 
-                                wire:click="$set('kategori', '')" 
-                                class="px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white font-semibold rounded-lg transition-colors duration-200"
-                            >
-                                <i class="fas fa-filter mr-2"></i>Hapus Filter
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            @endif
-        </div>
-        
-        <!-- Pagination -->
-        @if($books->count() > 0)
-            <div class="mt-8 flex justify-center">
-                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-100 dark:border-gray-700 p-4">
-                    {{ $books->links() }}
                 </div>
             </div>
-        @endif
-    </div>
+        </div>
 
-    <style>
-        .line-clamp-2 {
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-        
-        .line-clamp-3 {
-            display: -webkit-box;
-            -webkit-line-clamp: 3;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-        
-        .min-h-\[3\.5rem\] {
-            min-height: 3.5rem;
-        }
-        
-        .min-h-\[4\.5rem\] {
-            min-height: 4.5rem;
-        }
-        
-        /* Custom scrollbar for better aesthetics */
-        ::-webkit-scrollbar {
-            width: 6px;
-        }
-        
-        ::-webkit-scrollbar-track {
-            background: #f1f5f9;
-        }
-        
-        ::-webkit-scrollbar-thumb {
-            background: #cbd5e1;
-            border-radius: 3px;
-        }
-        
-        ::-webkit-scrollbar-thumb:hover {
-            background: #94a3b8;
-        }
-        
-        /* Dark mode scrollbar */
-        .dark ::-webkit-scrollbar-track {
-            background: #374151;
-        }
-        
-        .dark ::-webkit-scrollbar-thumb {
-            background: #6b7280;
-        }
-        
-        .dark ::-webkit-scrollbar-thumb:hover {
-            background: #9ca3af;
-        }
-    </style>
+        <!-- Back Button -->
+        <div class="flex justify-end mt-6">
+            <a href="{{ url('/member-books') }}" 
+               class="inline-flex items-center px-4 py-2 bg-white hover:bg-gray-50 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200 text-sm font-medium rounded-lg border border-gray-200 dark:border-gray-600 transition-all duration-200">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                </svg>
+                Kembali ke Katalog
+            </a>
+        </div>
+    </div>
 </x-filament-panels::page>
