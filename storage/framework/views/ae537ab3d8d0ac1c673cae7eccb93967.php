@@ -91,10 +91,10 @@
 
                             </p>
                         </div>
-                        <!-- Loan Request Button Section - Moved here -->
+                       <!-- Loan Request Button Section -->
                         <div class="mt-6">
                             <!--[if BLOCK]><![endif]--><?php if($hasPendingLoan): ?>
-                                <button disabled class="w-full px-6 py-3 bg-purple-400 text-white font-medium rounded-xl cursor-not-allowed shadow-md hover:shadow-lg transition-all duration-200 flex items-center justify-center space-x-2 border border-purple-500">
+                                <button disabled class="w-full px-6 py-3 bg-primary-50 dark:bg-primary-900 text-primary-800 dark:text-primary-200 font-medium rounded-xl cursor-not-allowed shadow-md hover:shadow-lg transition-all duration-200 flex items-center justify-center space-x-2 border border-primary-200 dark:border-primary-700">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                                     </svg>
@@ -103,15 +103,15 @@
                             <?php elseif($book->status === 'available'): ?>
                                 <button 
                                     wire:click="requestLoan"
-                                    class="w-full px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-xl shadow-md hover:shadow-lg transition-all duration-200 flex items-center justify-center space-x-2 border border-purple-700"
+                                    class="w-full px-6 py-3 bg-primary-600 hover:bg-primary-700 text-white font-medium rounded-xl shadow-md hover:shadow-lg transition-all duration-200 flex items-center justify-center space-x-2 border border-primary-700"
                                 >
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
                                     </svg>
                                     <span>Ajukan Peminjaman</span>
                                 </button>
                             <?php else: ?>
-                                <button disabled class="w-full px-6 py-3 bg-gray-400 text-white font-medium rounded-xl cursor-not-allowed shadow-md flex items-center justify-center space-x-2 border border-gray-500">
+                                <button disabled class="w-full px-6 py-3 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 font-medium rounded-xl cursor-not-allowed shadow-md flex items-center justify-center space-x-2 border border-gray-200 dark:border-gray-700">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                     </svg>
