@@ -16,6 +16,8 @@ class BookDetail extends Page
     
     public Book $book;
     public $hasPendingLoan = false;
+    public bool $showCancelModal = false;
+    protected ?Loan $pendingLoan = null;
     
     public function mount($id): void
     {
@@ -25,11 +27,14 @@ class BookDetail extends Page
         
         $this->book = Book::findOrFail($id);
         
-        // Cek apakah user sudah memiliki permintaan peminjaman yang pending untuk buku ini
-        $this->hasPendingLoan = Loan::where('user_id', auth()->id())
+        // Get the pending loan first
+        $this->pendingLoan = Loan::where('user_id', auth()->id())
             ->where('book_id', $this->book->id)
             ->whereIn('status', ['pending', 'active'])
-            ->exists();
+            ->first();
+            
+        // Then set hasPendingLoan based on pendingLoan
+        $this->hasPendingLoan = !is_null($this->pendingLoan);
     }
     
     public function requestLoan()
@@ -75,5 +80,36 @@ class BookDetail extends Page
     public static function shouldRegisterNavigation(): bool
     {
         return false;
+    }
+        public function toggleModal(): void
+    {
+        $this->showCancelModal = !$this->showCancelModal;
+    }
+
+    public function cancelLoan(): void
+    {
+        // Find the loan again in case it changed
+        $this->pendingLoan = Loan::where('user_id', auth()->id())
+            ->where('book_id', $this->book->id)
+            ->where('status', 'pending')
+            ->first();
+
+        if (!$this->pendingLoan) {
+            Notification::make()
+                ->title('Tidak ada peminjaman yang dapat dibatalkan')
+                ->danger()
+                ->send();
+            return;
+        }
+
+        $this->pendingLoan->delete();
+        $this->pendingLoan = null;
+        $this->hasPendingLoan = false;
+        $this->showCancelModal = false;
+
+        Notification::make()
+            ->title('Permintaan peminjaman berhasil dibatalkan')
+            ->success()
+            ->send();
     }
 }
