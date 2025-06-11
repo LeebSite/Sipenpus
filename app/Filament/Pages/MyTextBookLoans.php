@@ -52,18 +52,19 @@ class MyTextBookLoans extends Page implements HasTable
                     ->date(),
                 BadgeColumn::make('status')
                     ->label('Status')
-                    ->enum([
-                        'pending' => 'Menunggu Persetujuan',
-                        'active' => 'Dipinjam',
-                        'returned' => 'Dikembalikan',
-                        'rejected' => 'Ditolak',
-                    ])
                     ->colors([
                         'warning' => 'pending',
                         'success' => 'active',
                         'primary' => 'returned',
                         'danger' => 'rejected',
-                    ]),
+                    ])
+                    ->formatStateUsing(fn (string $state): string => match ($state) {
+                        'pending' => 'Menunggu Persetujuan',
+                        'active' => 'Dipinjam',
+                        'returned' => 'Dikembalikan',
+                        'rejected' => 'Ditolak',
+                        default => $state,
+                    }),
             ])
             ->defaultSort('created_at', 'desc')
             ->paginated([10, 25, 50]);
