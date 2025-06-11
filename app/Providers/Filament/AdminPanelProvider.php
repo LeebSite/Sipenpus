@@ -70,13 +70,9 @@ class AdminPanelProvider extends PanelProvider
             ->authMiddleware([
                 Authenticate::class,
             ])
-            ->authGuard('web')
-            ->tenantMiddleware([
-                'web',
-            ]);
+            ->authGuard('web');
     }
 }
-
 
 
 
