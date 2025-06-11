@@ -15,9 +15,9 @@ class TextBookResource extends Resource
     protected static ?string $model = TextBook::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-book-open';
-    protected static ?string $navigationLabel = 'Buku Cetak Pelajaran';
+    protected static ?string $navigationLabel = 'Buku Cetak';
     protected static ?string $navigationGroup = 'Perpustakaan';
-    protected static ?int $navigationSort = 3;
+    protected static ?int $navigationSort = 2;
 
     public static function form(Form $form): Form
     {
@@ -154,7 +154,7 @@ class TextBookResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListTextBooks::route('/'),
+            'index' => Pages\ListTextBook::route('/'),
             'create' => Pages\CreateTextBook::route('/create'),
             'edit' => Pages\EditTextBook::route('/{record}/edit'),
         ];
