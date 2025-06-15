@@ -1,17 +1,17 @@
 <x-filament-panels::page>
     <div class="mb-6">
         <div class="flex flex-col md:flex-row gap-4 mb-4">
-            <!-- Search Bar -->
+            <!-- Kolom Pencarian -->
             <div class="flex-1">
                 <x-filament::input.wrapper>
-                    <x-filament::input 
-                        type="search" 
-                        wire:model.live.debounce.500ms="search" 
-                        placeholder="Cari judul, penulis, atau kode buku..." 
+                    <x-filament::input
+                        type="search"
+                        wire:model.live.debounce.500ms="search"
+                        placeholder="Cari judul, penulis, atau kode buku..."
                     />
                 </x-filament::input.wrapper>
             </div>
-            
+
             <!-- Filter Mata Pelajaran -->
             <div>
                 <x-filament::input.wrapper>
@@ -23,7 +23,7 @@
                     </x-filament::input.select>
                 </x-filament::input.wrapper>
             </div>
-            
+
             <!-- Filter Kelas -->
             <div>
                 <x-filament::input.wrapper>

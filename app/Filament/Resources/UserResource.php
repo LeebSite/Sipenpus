@@ -23,25 +23,36 @@ use Filament\Tables\Actions\BulkActionGroup;
 class UserResource extends Resource
 {
     protected static ?string $model = User::class;
-
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-users';
+    protected static ?string $navigationLabel = 'Pengguna';
+    protected static ?string $navigationGroup = 'Manajemen Pengguna';
+    protected static ?string $modelLabel = 'Pengguna';
+    protected static ?string $pluralModelLabel = 'Pengguna';
 
     public static function form(Form $form): Form
     {
     return $form
         ->schema([
-            TextInput::make('name')->required(),
-            TextInput::make('email')->email()->required(),
+            TextInput::make('name')
+                ->required()
+                ->label('Nama')
+                ->maxLength(255),
+            TextInput::make('email')
+                ->email()
+                ->required()
+                ->label('Email')
+                ->maxLength(255),
             Select::make('role')
-                ->label('Role')
+                ->label('Peran')
                 ->options([
-                    'admin' => 'Admin',
-                    'employee' => 'Employee',
-                    'member' => 'Member',
+                    'admin' => 'Administrator',
+                    'employee' => 'Pegawai',
+                    'member' => 'Anggota',
                 ])
                 ->required(),
             TextInput::make('password')
                 ->password()
+                ->label('Kata Sandi')
                 ->dehydrateStateUsing(fn ($state) => !empty($state) ? bcrypt($state) : null)
                 ->dehydrated(fn ($state) => filled($state))
                 ->required(fn ($context) => $context === 'create'),
@@ -52,8 +63,14 @@ class UserResource extends Resource
     {
     return $table
         ->columns([
-            TextColumn::make('name')->label('Nama')->searchable(),
-            TextColumn::make('email')->label('Email')->searchable(),
+            TextColumn::make('name')
+                ->label('Nama')
+                ->searchable()
+                ->sortable(),
+            TextColumn::make('email')
+                ->label('Email')
+                ->searchable()
+                ->sortable(),
             TextColumn::make('role')
                 ->label('Peran')
                 ->badge()
@@ -62,57 +79,30 @@ class UserResource extends Resource
                     'employee' => 'info',
                     'member' => 'success',
                 ])
-                ->formatStateUsing(fn ($state) => ucfirst($state)),
+                ->formatStateUsing(fn ($state) => match($state) {
+                    'admin' => 'Administrator',
+                    'employee' => 'Pegawai',
+                    'member' => 'Anggota',
+                    default => ucfirst($state)
+                }),
         ])
         ->filters([
             SelectFilter::make('role')
+                ->label('Peran')
                 ->options([
-                    'admin' => 'Admin',
-                    'employee' => 'Employee',
-                    'member' => 'Member',
+                    'admin' => 'Administrator',
+                    'employee' => 'Pegawai',
+                    'member' => 'Anggota',
                 ]),
         ])
         ->actions([
-            Tables\Actions\EditAction::make(),
+            Tables\Actions\EditAction::make()->label('Edit'),
         ])
         ->bulkActions([
             Tables\Actions\BulkActionGroup::make([
-                Tables\Actions\DeleteBulkAction::make(),
-                ]),
-            ])
-            ->columns([
-                TextColumn::make('name')
-                    ->label('Nama')
-                    ->searchable(),
-                TextColumn::make('email')
-                    ->label('Email')
-                    ->searchable(),
-                TextColumn::make('role')
-                    ->label('Peran')
-                    ->badge()
-                    ->colors([
-                        'admin' => 'danger',
-                        'employee' => 'info',
-                        'member' => 'success',
-                    ])
-                    ->formatStateUsing(fn ($state) => ucfirst($state)),
-            ])
-            ->filters([
-                SelectFilter::make('role')
-                    ->options([
-                        'admin' => 'Admin',
-                        'employee' => 'Employee',
-                        'member' => 'Member',
-                    ]),
-            ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
-            ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
-            ]);
+                Tables\Actions\DeleteBulkAction::make()->label('Hapus Terpilih'),
+            ]),
+        ]);
     }
 
     public static function getRelations(): array

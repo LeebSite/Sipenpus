@@ -10,7 +10,7 @@
 <?php $component->withAttributes([]); ?>
     <div class="mb-6">
         <div class="flex flex-col md:flex-row gap-4 mb-4">
-            <!-- Search Bar -->
+            <!-- Kolom Pencarian -->
             <div class="flex-1">
                 <?php if (isset($component)) { $__componentOriginal505efd9768415fdb4543e8c564dad437 = $component; } ?>
 <?php if (isset($attributes)) { $__attributesOriginal505efd9768415fdb4543e8c564dad437 = $attributes; } ?>
@@ -53,7 +53,7 @@
 <?php unset($__componentOriginal505efd9768415fdb4543e8c564dad437); ?>
 <?php endif; ?>
             </div>
-            
+
             <!-- Filter Mata Pelajaran -->
             <div>
                 <?php if (isset($component)) { $__componentOriginal505efd9768415fdb4543e8c564dad437 = $component; } ?>
@@ -101,7 +101,7 @@
 <?php unset($__componentOriginal505efd9768415fdb4543e8c564dad437); ?>
 <?php endif; ?>
             </div>
-            
+
             <!-- Filter Kelas -->
             <div>
                 <?php if (isset($component)) { $__componentOriginal505efd9768415fdb4543e8c564dad437 = $component; } ?>

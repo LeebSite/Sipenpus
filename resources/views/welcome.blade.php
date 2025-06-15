@@ -199,7 +199,7 @@
             <nav class="hidden lg:flex items-center space-x-6 text-sm font-medium">
                 <a href="#features" class="nav-link hover:text-primary-700 transition-colors">Fitur Kami</a>
                 <a href="#subject" class="nav-link hover:text-primary-700 transition-colors">Koleksi</a>
-                <a href="#contact" class="nav-link hover:text-primary-700 transition-colors">Contact</a>
+                <a href="#contact" class="nav-link hover:text-primary-700 transition-colors">Kontak</a>
                 @auth
                     @php
                         $dashboardUrl = url('/dashboard');
@@ -224,7 +224,7 @@
                 <nav class="flex flex-col space-y-4">
                     <a href="#features" class="font-medium hover:text-primary-700 transition-colors">Fitur Kami</a>
                     <a href="#subject" class="font-medium hover:text-primary-700 transition-colors">Koleksi</a>
-                    <a href="#contact" class="font-medium hover:text-primary-700 transition-colors">Contact</a>
+                    <a href="#contact" class="font-medium hover:text-primary-700 transition-colors">Kontak</a>
                     @auth
                         <a href="{{ $dashboardUrl }}" class="px-4 py-2 text-center rounded-lg bg-primary-600 hover:bg-primary-700 text-white shadow-md transition-all">Dashboard</a>
                     @else
@@ -245,7 +245,7 @@
             <nav class="hidden lg:flex items-center space-x-6 text-sm font-medium">
                 <a href="#features" class="nav-link hover:text-primary-700 transition-colors">Fitur Kami</a>
                 <a href="#subject" class="nav-link hover:text-primary-700 transition-colors">Koleksi</a>
-                <a href="#contact" class="nav-link hover:text-primary-700 transition-colors">Contact</a>
+                <a href="#contact" class="nav-link hover:text-primary-700 transition-colors">Kontak</a>
                 @auth
                     <a href="{{ $dashboardUrl }}" class="px-4 py-2 rounded-lg bg-primary-600 hover:bg-primary-700 text-white shadow-md transition-all text-xs">Dashboard</a>
                 @else
@@ -267,7 +267,7 @@
                 <nav class="flex flex-col space-y-3">
                     <a href="#features" class="font-medium hover:text-primary-700 transition-colors">Fitur Kami</a>
                     <a href="#subject" class="font-medium hover:text-primary-700 transition-colors">Koleksi</a>
-                    <a href="#contact" class="font-medium hover:text-primary-700 transition-colors">Contact</a>
+                    <a href="#contact" class="font-medium hover:text-primary-700 transition-colors">Kontak</a>
                     @auth
                         <a href="{{ $dashboardUrl }}" class="px-4 py-2 text-center rounded-lg bg-primary-600 hover:bg-primary-700 text-white shadow-md transition-all">Dashboard</a>
                     @else

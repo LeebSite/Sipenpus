@@ -11,7 +11,7 @@
     <div class="p-6 bg-white rounded-xl shadow-sm dark:bg-gray-800">
         <div class="bg-white dark:bg-gray-700 rounded-xl shadow-md overflow-hidden border border-gray-100 dark:border-gray-600">
             <div class="md:flex">
-                <!-- Book Cover Section -->
+                <!-- Bagian Sampul Buku -->
                 <div class="md:w-1/3 p-6 flex flex-col">
                     <div class="bg-gray-50 dark:bg-gray-600 rounded-xl overflow-hidden h-80 flex items-center justify-center shadow-inner">
                         <!--[if BLOCK]><![endif]--><?php if($book->gambar): ?>
@@ -32,11 +32,11 @@
                     </div>
                 </div>
                 
-                <!-- Book Details Section -->
+                <!-- Bagian Detail Buku -->
                 <div class="md:w-2/3 p-6 border-t md:border-t-0 md:border-l border-gray-100 dark:border-gray-600">
                     <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-4"><?php echo e($book->judul); ?></h2>
                     <div class="space-y-4">
-                        <!-- Status Badge -->
+                        <!-- Lencana Status -->
                         <div class="flex items-center">
                             <span class="text-sm font-medium text-gray-500 dark:text-gray-400 w-32">Status:</span>
                             <!--[if BLOCK]><![endif]--><?php if($hasPendingLoan): ?>
@@ -57,7 +57,7 @@
                             <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
                         </div>
 
-                        <!-- Book Info -->
+                        <!-- Informasi Buku -->
                         <!--[if BLOCK]><![endif]--><?php $__currentLoopData = [
                             'Penulis' => $book->penulis,
                             'Penerbit' => $book->penerbit,
@@ -72,7 +72,7 @@
                             </div>
                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><!--[if ENDBLOCK]><![endif]-->
 
-                        <!-- Category Badge -->
+                        <!-- Lencana Kategori -->
                         <div class="flex items-center p-3 bg-gray-50 dark:bg-gray-600/50 rounded-lg">
                             <span class="text-sm font-medium text-gray-500 dark:text-gray-400 w-32">Kategori:</span>
                             <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-200">
@@ -82,7 +82,7 @@
                         </div>
                     </div>
                     
-                    <!-- Description Section -->
+                    <!-- Bagian Deskripsi -->
                     <div class="mt-6">
                         <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-3">Deskripsi</h3>
                         <div class="p-4 bg-gray-50 dark:bg-gray-600/50 rounded-lg">
@@ -91,7 +91,7 @@
 
                             </p>
                         </div>
-                        <!-- Loan Request Button Section -->
+                        <!-- Bagian Tombol Permintaan Peminjaman -->
                         <div class="mt-6">
                             <!--[if BLOCK]><![endif]--><?php if($hasPendingLoan): ?>
                                 <button 
@@ -121,14 +121,14 @@
                                     <span>Buku Tidak Tersedia</span>
                                 </button>
                             <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
-                            <!-- Cancel Confirmation Modal -->
+                            <!-- Modal Konfirmasi Pembatalan -->
                             <!--[if BLOCK]><![endif]--><?php if($showCancelModal): ?>
                                 <div class="fixed inset-0 z-50 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
                                     <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-                                        <!-- Background overlay -->
+                                        <!-- Lapisan latar belakang -->
                                         <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
 
-                                        <!-- Modal panel -->
+                                        <!-- Panel modal -->
                                         <div class="inline-block align-bottom bg-white dark:bg-gray-800 rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
                                             <div class="bg-white dark:bg-gray-800 px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                                                 <div class="sm:flex sm:items-start">
@@ -173,7 +173,7 @@
             </div>
         </div>
 
-        <!-- Back Button -->
+        <!-- Tombol Kembali -->
         <div class="flex justify-end mt-6">
             <a href="<?php echo e(url('/member-books')); ?>" 
                 class="inline-flex items-center px-4 py-2 bg-white hover:bg-gray-50 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200 text-sm font-medium rounded-lg border border-gray-200 dark:border-gray-600 transition-all duration-200">
