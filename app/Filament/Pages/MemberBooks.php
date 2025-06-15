@@ -11,9 +11,9 @@ use Illuminate\Http\Request;
 class MemberBooks extends Page
 {
     protected static ?string $navigationIcon = 'heroicon-o-book-open';
-    protected static ?string $navigationLabel = 'Books';
-    protected static ?string $title = 'Browse Books';
-    protected static ?string $navigationGroup = 'Library';
+    protected static ?string $navigationLabel = 'Buku';
+    protected static ?string $title = 'Jelajahi Buku';
+    protected static ?string $navigationGroup = 'Perpustakaan';
     
     protected static string $view = 'filament.pages.member-books';
     
@@ -65,3 +65,4 @@ class MemberBooks extends Page
         return auth()->user()->role === 'member';
     }
 }
+
