@@ -13,7 +13,13 @@ class ListTextBookLoans extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make()->label('Tambah Peminjaman'),
+            // Admin dan employee tidak bisa membuat peminjaman baru
+            // Peminjaman hanya bisa dibuat oleh member melalui katalog
         ];
+    }
+
+    public function getTitle(): string
+    {
+        return 'Daftar Peminjaman Buku Cetak';
     }
 }

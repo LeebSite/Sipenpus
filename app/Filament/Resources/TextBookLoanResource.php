@@ -25,67 +25,181 @@ class TextBookLoanResource extends Resource
         return auth()->user()->role === 'admin' || auth()->user()->role === 'employee';
     }
 
-    public static function getPages(): array
+    public static function canCreate(): bool
     {
-        return [
-            'index' => Pages\ListTextBookLoans::route('/'),
-            'create' => Pages\CreateTextBookLoan::route('/create'),
-            'edit' => Pages\EditTextBookLoan::route('/{record}/edit'),
-        ];
+        return false; // Admin dan employee tidak bisa membuat peminjaman baru
+    }
+
+    public static function table(Table $table): Table
+    {
+        return $table
+            ->columns([
+                Tables\Columns\TextColumn::make('user.name')
+                    ->label('Nama Peminjam')
+                    ->searchable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('textBook.judul')
+                    ->label('Judul Buku')
+                    ->searchable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('textBook.kode_buku')
+                    ->label('Kode Buku')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('mata_pelajaran')
+                    ->label('Mata Pelajaran')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('guru_pengampu')
+                    ->label('Guru Pengampu')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('kelas_keperluan')
+                    ->label('Kelas/Keperluan'),
+                Tables\Columns\TextColumn::make('jumlah')
+                    ->label('Jumlah')
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('loan_date')
+                    ->label('Tanggal Pinjam')
+                    ->date('d M Y')
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('return_date')
+                    ->label('Tanggal Kembali')
+                    ->date('d M Y')
+                    ->sortable(),
+                Tables\Columns\BadgeColumn::make('status')
+                    ->label('Status')
+                    ->colors([
+                        'warning' => 'pending',
+                        'success' => 'active',
+                        'primary' => 'returned',
+                        'danger' => 'rejected',
+                    ])
+                    ->formatStateUsing(fn (string $state): string => match ($state) {
+                        'pending' => 'Menunggu Persetujuan',
+                        'active' => 'Dipinjam',
+                        'returned' => 'Dikembalikan',
+                        'rejected' => 'Ditolak',
+                        default => $state,
+                    }),
+                Tables\Columns\TextColumn::make('created_at')
+                    ->label('Tanggal Pengajuan')
+                    ->dateTime('d M Y H:i')
+                    ->sortable(),
+            ])
+            ->filters([
+                Tables\Filters\SelectFilter::make('status')
+                    ->label('Status')
+                    ->options([
+                        'pending' => 'Menunggu Persetujuan',
+                        'active' => 'Dipinjam',
+                        'returned' => 'Dikembalikan',
+                        'rejected' => 'Ditolak',
+                    ]),
+                Tables\Filters\SelectFilter::make('textBook')
+                    ->relationship('textBook', 'judul')
+                    ->label('Buku')
+                    ->searchable()
+                    ->preload(),
+            ])
+            ->actions([
+                Tables\Actions\Action::make('approve')
+                    ->label('Setujui')
+                    ->icon('heroicon-o-check')
+                    ->color('success')
+                    ->visible(fn (TextBookLoan $record): bool => $record->status === 'pending')
+                    ->action(function (TextBookLoan $record): void {
+                        $record->update(['status' => 'active']);
+
+                        Notification::make()
+                            ->title('Peminjaman berhasil disetujui')
+                            ->success()
+                            ->send();
+                    }),
+                Tables\Actions\Action::make('reject')
+                    ->label('Tolak')
+                    ->icon('heroicon-o-x-mark')
+                    ->color('danger')
+                    ->visible(fn (TextBookLoan $record): bool => $record->status === 'pending')
+                    ->action(function (TextBookLoan $record): void {
+                        $record->update(['status' => 'rejected']);
+
+                        Notification::make()
+                            ->title('Peminjaman berhasil ditolak')
+                            ->success()
+                            ->send();
+                    }),
+                Tables\Actions\Action::make('return')
+                    ->label('Kembalikan')
+                    ->icon('heroicon-o-arrow-uturn-left')
+                    ->color('primary')
+                    ->visible(fn (TextBookLoan $record): bool => $record->status === 'active')
+                    ->action(function (TextBookLoan $record): void {
+                        $record->update(['status' => 'returned']);
+
+                        Notification::make()
+                            ->title('Buku berhasil dikembalikan')
+                            ->success()
+                            ->send();
+                    }),
+                Tables\Actions\ViewAction::make()
+                    ->label('Lihat Detail'),
+            ])
+            ->bulkActions([
+                Tables\Actions\BulkActionGroup::make([
+                    Tables\Actions\DeleteBulkAction::make()
+                        ->label('Hapus Terpilih'),
+                ]),
+            ])
+            ->defaultSort('created_at', 'desc');
     }
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\Hidden::make('user_id')
-                    ->default(fn () => auth()->id()),
-                
-                Forms\Components\Select::make('text_book_id')
-                    ->relationship('textBook', 'judul')
-                    ->required()
-                    ->label('Buku Cetak')
-                    ->searchable()
-                    ->preload(),
-                
+                Forms\Components\TextInput::make('user.name')
+                    ->label('Nama Peminjam')
+                    ->disabled(),
+                Forms\Components\TextInput::make('textBook.judul')
+                    ->label('Judul Buku')
+                    ->disabled(),
                 Forms\Components\TextInput::make('mata_pelajaran')
-                    ->required()
                     ->label('Mata Pelajaran')
-                    ->maxLength(255),
-                
+                    ->disabled(),
                 Forms\Components\TextInput::make('guru_pengampu')
-                    ->required()
                     ->label('Guru Pengampu')
-                    ->maxLength(255),
-                
+                    ->disabled(),
                 Forms\Components\TextInput::make('kelas_keperluan')
-                    ->required()
                     ->label('Kelas/Keperluan')
-                    ->maxLength(255),
-                
+                    ->disabled(),
                 Forms\Components\TextInput::make('jumlah')
-                    ->required()
-                    ->numeric()
-                    ->minValue(1)
-                    ->label('Jumlah'),
-                
+                    ->label('Jumlah')
+                    ->disabled(),
                 Forms\Components\DatePicker::make('loan_date')
-                    ->required()
                     ->label('Tanggal Pinjam')
-                    ->default(now()),
-                
+                    ->disabled(),
                 Forms\Components\DatePicker::make('return_date')
-                    ->required()
                     ->label('Tanggal Kembali')
-                    ->default(now()->addDays(7)),
-                
-                Forms\Components\Hidden::make('status')
-                    ->default('pending'),
-                
+                    ->disabled(),
+                Forms\Components\Select::make('status')
+                    ->label('Status')
+                    ->options([
+                        'pending' => 'Menunggu Persetujuan',
+                        'active' => 'Dipinjam',
+                        'returned' => 'Dikembalikan',
+                        'rejected' => 'Ditolak',
+                    ])
+                    ->disabled(),
                 Forms\Components\Textarea::make('notes')
                     ->label('Catatan')
-                    ->maxLength(65535),
+                    ->disabled(),
             ]);
     }
-}
 
+    public static function getPages(): array
+    {
+        return [
+            'index' => Pages\ListTextBookLoans::route('/'),
+            'view' => Pages\ViewTextBookLoan::route('/{record}'),
+        ];
+    }
+
+}
