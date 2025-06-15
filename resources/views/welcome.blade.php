@@ -213,7 +213,7 @@
                     @endphp
                     <a href="{{ $dashboardUrl }}" class="px-5 py-2.5 rounded-lg bg-primary-600 hover:bg-primary-700 text-white shadow-md hover:shadow-lg transition-all">Dashboard</a>
                 @else
-                    <a href="{{ url('/login') }}" class="px-5 py-2.5 rounded-lg border-2 border-primary-600 text-primary-600 hover:bg-primary-600 hover:text-white transition-all">Login</a>
+                    <a href="{{ url('/login') }}" class="px-5 py-2.5 rounded-lg border-2 border-primary-600 text-primary-600 hover:bg-primary-600 hover:text-white transition-all">Masuk</a>
                 @endauth
             </nav>
         </div>
@@ -228,7 +228,7 @@
                     @auth
                         <a href="{{ $dashboardUrl }}" class="px-4 py-2 text-center rounded-lg bg-primary-600 hover:bg-primary-700 text-white shadow-md transition-all">Dashboard</a>
                     @else
-                        <a href="{{ url('/login') }}" class="px-4 py-2 text-center rounded-lg border-2 border-primary-600 text-primary-600 hover:bg-primary-600 hover:text-white transition-all">Login</a>
+                        <a href="{{ url('/login') }}" class="px-4 py-2 text-center rounded-lg border-2 border-primary-600 text-primary-600 hover:bg-primary-600 hover:text-white transition-all">Masuk</a>
                     @endauth
                 </nav>
             </div>
@@ -249,7 +249,7 @@
                 @auth
                     <a href="{{ $dashboardUrl }}" class="px-4 py-2 rounded-lg bg-primary-600 hover:bg-primary-700 text-white shadow-md transition-all text-xs">Dashboard</a>
                 @else
-                    <a href="{{ url('/login') }}" class="px-4 py-2 rounded-lg border-2 border-primary-600 text-primary-600 hover:bg-primary-600 hover:text-white transition-all text-xs">Login</a>
+                    <a href="{{ url('/login') }}" class="px-4 py-2 rounded-lg border-2 border-primary-600 text-primary-600 hover:bg-primary-600 hover:text-white transition-all text-xs">Masuk</a>
                 @endauth
             </nav>
             
@@ -271,7 +271,7 @@
                     @auth
                         <a href="{{ $dashboardUrl }}" class="px-4 py-2 text-center rounded-lg bg-primary-600 hover:bg-primary-700 text-white shadow-md transition-all">Dashboard</a>
                     @else
-                        <a href="{{ url('/login') }}" class="px-4 py-2 text-center rounded-lg border-2 border-primary-600 text-primary-600 hover:bg-primary-600 hover:text-white transition-all">Login</a>
+                        <a href="{{ url('/login') }}" class="px-4 py-2 text-center rounded-lg border-2 border-primary-600 text-primary-600 hover:bg-primary-600 hover:text-white transition-all">Masuk</a>
                     @endauth
                 </nav>
             </div>
