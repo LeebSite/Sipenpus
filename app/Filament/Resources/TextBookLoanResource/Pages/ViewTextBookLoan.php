@@ -45,19 +45,34 @@ class ViewTextBookLoan extends ViewRecord
                         
                     $this->redirect($this->getResource()::getUrl('index'));
                 }),
-            Actions\Action::make('return')
-                ->label('Kembalikan Buku')
-                ->icon('heroicon-o-arrow-uturn-left')
-                ->color('primary')
-                ->visible(fn (): bool => $this->record->status === 'active')
+            Actions\Action::make('validate_return')
+                ->label('Validasi Pengembalian')
+                ->icon('heroicon-o-check-circle')
+                ->color('success')
+                ->visible(fn (): bool => $this->record->status === 'return_pending')
                 ->action(function (): void {
                     $this->record->update(['status' => 'returned']);
-                    
+
                     Notification::make()
-                        ->title('Buku berhasil dikembalikan')
+                        ->title('Pengembalian buku berhasil divalidasi')
                         ->success()
                         ->send();
-                        
+
+                    $this->redirect($this->getResource()::getUrl('index'));
+                }),
+            Actions\Action::make('reject_return')
+                ->label('Tolak Pengembalian')
+                ->icon('heroicon-o-x-circle')
+                ->color('danger')
+                ->visible(fn (): bool => $this->record->status === 'return_pending')
+                ->action(function (): void {
+                    $this->record->update(['status' => 'active']);
+
+                    Notification::make()
+                        ->title('Pengembalian buku ditolak, status dikembalikan ke dipinjam')
+                        ->warning()
+                        ->send();
+
                     $this->redirect($this->getResource()::getUrl('index'));
                 }),
             Actions\EditAction::make()

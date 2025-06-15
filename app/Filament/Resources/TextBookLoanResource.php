@@ -69,12 +69,14 @@ class TextBookLoanResource extends Resource
                     ->colors([
                         'warning' => 'pending',
                         'success' => 'active',
+                        'info' => 'return_pending',
                         'primary' => 'returned',
                         'danger' => 'rejected',
                     ])
                     ->formatStateUsing(fn (string $state): string => match ($state) {
                         'pending' => 'Menunggu Persetujuan',
                         'active' => 'Dipinjam',
+                        'return_pending' => 'Menunggu Validasi Pengembalian',
                         'returned' => 'Dikembalikan',
                         'rejected' => 'Ditolak',
                         default => $state,
@@ -90,6 +92,7 @@ class TextBookLoanResource extends Resource
                     ->options([
                         'pending' => 'Menunggu Persetujuan',
                         'active' => 'Dipinjam',
+                        'return_pending' => 'Menunggu Validasi Pengembalian',
                         'returned' => 'Dikembalikan',
                         'rejected' => 'Ditolak',
                     ]),
@@ -126,17 +129,30 @@ class TextBookLoanResource extends Resource
                             ->success()
                             ->send();
                     }),
-                Tables\Actions\Action::make('return')
-                    ->label('Kembalikan')
-                    ->icon('heroicon-o-arrow-uturn-left')
-                    ->color('primary')
-                    ->visible(fn (TextBookLoan $record): bool => $record->status === 'active')
+                Tables\Actions\Action::make('validate_return')
+                    ->label('Validasi Pengembalian')
+                    ->icon('heroicon-o-check-circle')
+                    ->color('success')
+                    ->visible(fn (TextBookLoan $record): bool => $record->status === 'return_pending')
                     ->action(function (TextBookLoan $record): void {
                         $record->update(['status' => 'returned']);
 
                         Notification::make()
-                            ->title('Buku berhasil dikembalikan')
+                            ->title('Pengembalian buku berhasil divalidasi')
                             ->success()
+                            ->send();
+                    }),
+                Tables\Actions\Action::make('reject_return')
+                    ->label('Tolak Pengembalian')
+                    ->icon('heroicon-o-x-circle')
+                    ->color('danger')
+                    ->visible(fn (TextBookLoan $record): bool => $record->status === 'return_pending')
+                    ->action(function (TextBookLoan $record): void {
+                        $record->update(['status' => 'active']);
+
+                        Notification::make()
+                            ->title('Pengembalian buku ditolak, status dikembalikan ke dipinjam')
+                            ->warning()
                             ->send();
                     }),
                 Tables\Actions\ViewAction::make()
@@ -184,6 +200,7 @@ class TextBookLoanResource extends Resource
                     ->options([
                         'pending' => 'Menunggu Persetujuan',
                         'active' => 'Dipinjam',
+                        'return_pending' => 'Menunggu Validasi Pengembalian',
                         'returned' => 'Dikembalikan',
                         'rejected' => 'Ditolak',
                     ])

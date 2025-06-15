@@ -11,6 +11,7 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\BadgeColumn;
 use Illuminate\Support\Facades\Auth;
 use Filament\Tables\Actions\Action;
+use Filament\Notifications\Notification;
 
 class MyTextBookLoans extends Page implements HasTable
 {
@@ -62,12 +63,14 @@ class MyTextBookLoans extends Page implements HasTable
                     ->colors([
                         'warning' => 'pending',
                         'success' => 'active',
+                        'info' => 'return_pending',
                         'primary' => 'returned',
                         'danger' => 'rejected',
                     ])
                     ->formatStateUsing(fn (string $state): string => match ($state) {
                         'pending' => 'Menunggu Persetujuan',
                         'active' => 'Dipinjam',
+                        'return_pending' => 'Menunggu Validasi Pengembalian',
                         'returned' => 'Dikembalikan',
                         'rejected' => 'Ditolak',
                         default => $state,
