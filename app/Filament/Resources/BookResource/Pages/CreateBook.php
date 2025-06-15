@@ -19,9 +19,10 @@ class CreateBook extends CreateRecord
         return 'Buku berhasil ditambahkan';
     }
     
-    protected function getTitle(): string 
+    public function getTitle(): string 
     {
         return 'Tambah Buku';
     }
 }
+
 

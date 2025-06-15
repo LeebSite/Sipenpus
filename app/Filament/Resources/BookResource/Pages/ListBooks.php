@@ -17,7 +17,7 @@ class ListBooks extends ListRecords
         ];
     }
     
-    protected function getTitle(): string 
+    public function getTitle(): string 
     {
         return 'Daftar Buku';
     }

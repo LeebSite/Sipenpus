@@ -27,9 +27,10 @@ class EditBook extends EditRecord
         return 'Buku berhasil diperbarui';
     }
     
-    protected function getTitle(): string 
+    public function getTitle(): string 
     {
         return 'Edit Buku';
     }
 }
+
 
