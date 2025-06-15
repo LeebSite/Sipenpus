@@ -21,7 +21,7 @@ class LoanResource extends Resource
     protected static ?string $navigationLabel = 'Peminjaman';
     protected static ?string $pluralModelLabel = 'Peminjaman';
     protected static ?string $modelLabel = 'Peminjaman';
-    protected static ?string $navigationGroup = 'Transaksi';
+    protected static ?string $navigationGroup = 'Manajemen Transaksi';
     protected static ?int $navigationSort = 1;
 
     public static function form(Form $form): Form
@@ -205,4 +205,5 @@ class LoanResource extends Resource
         return auth()->user()->role === 'admin' || auth()->user()->role === 'employee';
     }
 }
+
 

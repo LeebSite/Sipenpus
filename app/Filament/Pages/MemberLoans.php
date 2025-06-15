@@ -15,9 +15,9 @@ class MemberLoans extends Page implements HasTable
     use InteractsWithTable;
     
     protected static ?string $navigationIcon = 'heroicon-o-clipboard-document-list';
-    protected static ?string $navigationLabel = 'Peminjaman Saya';
-    protected static ?string $title = 'Riwayat Peminjaman';
-    protected static ?string $navigationGroup = 'Perpustakaan';
+    protected static ?string $navigationLabel = 'Peminjaman Buku Saya';
+    protected static ?string $title = 'Peminjaman Buku Saya';
+    protected static ?string $navigationGroup = 'Transaksi Saya';
     
     protected static string $view = 'filament.pages.member-loans';
     
@@ -91,3 +91,4 @@ class MemberLoans extends Page implements HasTable
         return auth()->user()->role === 'member';
     }
 }
+

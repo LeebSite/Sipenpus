@@ -8,11 +8,6 @@
 <?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
 <?php endif; ?>
 <?php $component->withAttributes([]); ?>
-    <div class="mb-6">
-        <h1 class="text-2xl font-bold">Peminjaman Buku Cetak Saya</h1>
-        <p class="text-gray-500">Daftar peminjaman buku cetak yang Anda ajukan</p>
-    </div>
-
     <?php echo e($this->table); ?>
 
  <?php echo $__env->renderComponent(); ?>
@@ -24,4 +19,5 @@
 <?php if (isset($__componentOriginal166a02a7c5ef5a9331faf66fa665c256)): ?>
 <?php $component = $__componentOriginal166a02a7c5ef5a9331faf66fa665c256; ?>
 <?php unset($__componentOriginal166a02a7c5ef5a9331faf66fa665c256); ?>
-<?php endif; ?><?php /**PATH C:\laragon\www\sipenpus\resources\views/filament/pages/my-text-book-loans.blade.php ENDPATH**/ ?>
+<?php endif; ?>
+<?php /**PATH C:\laragon\www\sipenpus\resources\views/filament/pages/my-text-book-loans.blade.php ENDPATH**/ ?>

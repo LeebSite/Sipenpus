@@ -22,7 +22,7 @@ class BookResource extends Resource
 {
     protected static ?string $model = Book::class;
     protected static ?string $navigationIcon = 'heroicon-o-book-open';
-    protected static ?string $navigationGroup = 'Manajemen Perpustakaan';
+    protected static ?string $navigationGroup = 'Manajemen Buku';
     protected static ?string $navigationLabel = 'Buku';
     protected static ?string $modelLabel = 'Buku';
     protected static ?string $pluralModelLabel = 'Buku';
@@ -180,6 +180,12 @@ class BookResource extends Resource
             'edit' => Pages\EditBook::route('/{record}/edit'),
         ];
     }
+    
+    public static function canViewAny(): bool
+    {
+        return auth()->user()->role === 'admin' || auth()->user()->role === 'employee';
+    }
 }
+
 
 

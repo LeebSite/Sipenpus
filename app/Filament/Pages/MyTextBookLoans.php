@@ -4,13 +4,13 @@ namespace App\Filament\Pages;
 
 use App\Models\TextBookLoan;
 use Filament\Pages\Page;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Columns\BadgeColumn;
 use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\BadgeColumn;
 use Illuminate\Support\Facades\Auth;
+use Filament\Tables\Actions\Action;
 
 class MyTextBookLoans extends Page implements HasTable
 {
@@ -18,9 +18,16 @@ class MyTextBookLoans extends Page implements HasTable
     
     protected static ?string $navigationIcon = 'heroicon-o-clipboard-document-list';
     protected static ?string $navigationLabel = 'Peminjaman Buku Cetak Saya';
-    protected static ?string $navigationGroup = 'Perpustakaan';
+    protected static ?string $navigationGroup = 'Transaksi Saya';
     protected static ?int $navigationSort = 4;
     protected static string $view = 'filament.pages.my-text-book-loans';
+    
+    public function mount(): void
+    {
+        if (Auth::user()->role !== 'member') {
+            redirect()->to(Dashboard::getUrl());
+        }
+    }
     
     public function table(Table $table): Table
     {
@@ -66,8 +73,28 @@ class MyTextBookLoans extends Page implements HasTable
                         default => $state,
                     }),
             ])
-            ->defaultSort('created_at', 'desc')
-            ->paginated([10, 25, 50]);
+            ->filters([])
+            ->actions([
+                Action::make('cancel')
+                    ->label('Batalkan')
+                    ->icon('heroicon-o-x-mark')
+                    ->color('danger')
+                    ->visible(fn (TextBookLoan $record): bool => $record->status === 'pending')
+                    ->action(function (TextBookLoan $record): void {
+                        $record->delete();
+                        
+                        Notification::make()
+                            ->title('Permintaan peminjaman berhasil dibatalkan')
+                            ->success()
+                            ->send();
+                    })
+            ])
+            ->bulkActions([]);
+    }
+    
+    public static function shouldRegisterNavigation(): bool
+    {
+        return auth()->user()->role === 'member';
     }
 }
 

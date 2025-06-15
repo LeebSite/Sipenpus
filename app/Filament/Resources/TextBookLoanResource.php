@@ -16,8 +16,13 @@ class TextBookLoanResource extends Resource
     protected static ?string $model = TextBookLoan::class;
     protected static ?string $navigationIcon = 'heroicon-o-clipboard-document-list';
     protected static ?string $navigationLabel = 'Peminjaman Buku Cetak';
-    protected static ?string $navigationGroup = 'Perpustakaan';
+    protected static ?string $navigationGroup = 'Manajemen Transaksi';
     protected static ?int $navigationSort = 4;
+
+    public static function canViewAny(): bool
+    {
+        return auth()->user()->role === 'admin' || auth()->user()->role === 'employee';
+    }
 
     public static function getPages(): array
     {
@@ -82,3 +87,4 @@ class TextBookLoanResource extends Resource
             ]);
     }
 }
+

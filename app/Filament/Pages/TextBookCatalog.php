@@ -18,7 +18,7 @@ use Illuminate\Database\Eloquent\Builder;
 class TextBookCatalog extends Page
 {
     protected static ?string $navigationIcon = 'heroicon-o-book-open';
-    protected static ?string $navigationLabel = 'Peminjaman Buku Cetak';
+    protected static ?string $navigationLabel = 'Katalog Buku Cetak';
     protected static ?string $navigationGroup = 'Perpustakaan';
     protected static ?int $navigationSort = 3;
     protected static string $view = 'filament.pages.text-book-catalog';
@@ -40,6 +40,10 @@ class TextBookCatalog extends Page
     
     public function mount(): void
     {
+        if (Auth::user()->role !== 'member') {
+            redirect()->to(Dashboard::getUrl());
+        }
+        
         $this->textBooks = $this->getTextBooks();
         $this->loan_date = now()->format('Y-m-d');
         $this->return_date = now()->addDays(7)->format('Y-m-d');
@@ -82,6 +86,7 @@ class TextBookCatalog extends Page
     {
         $this->selectedBook = TextBook::find($bookId);
         $this->mata_pelajaran = $this->selectedBook->mata_pelajaran;
+        $this->kelas_keperluan = $this->selectedBook->kelas;
     }
     
     public function cancelSelection(): void
@@ -154,4 +159,11 @@ class TextBookCatalog extends Page
             ->filter()
             ->toArray();
     }
+    
+    public static function shouldRegisterNavigation(): bool
+    {
+        return auth()->user()->role === 'member';
+    }
 }
+
+

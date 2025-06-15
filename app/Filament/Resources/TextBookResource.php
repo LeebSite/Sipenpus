@@ -16,7 +16,7 @@ class TextBookResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-book-open';
     protected static ?string $navigationLabel = 'Buku Cetak';
-    protected static ?string $navigationGroup = 'Perpustakaan';
+    protected static ?string $navigationGroup = 'Manajemen Buku';
     protected static ?int $navigationSort = 2;
 
     public static function form(Form $form): Form
@@ -165,4 +165,5 @@ class TextBookResource extends Resource
         return auth()->user()->role === 'admin' || auth()->user()->role === 'employee';
     }
 }
+
 
