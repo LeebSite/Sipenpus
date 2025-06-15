@@ -22,8 +22,10 @@ class BookResource extends Resource
 {
     protected static ?string $model = Book::class;
     protected static ?string $navigationIcon = 'heroicon-o-book-open';
-    protected static ?string $navigationGroup = 'Library Management';
-    protected static ?string $navigationLabel = 'Books';
+    protected static ?string $navigationGroup = 'Manajemen Perpustakaan';
+    protected static ?string $navigationLabel = 'Buku';
+    protected static ?string $modelLabel = 'Buku';
+    protected static ?string $pluralModelLabel = 'Buku';
 
     public static function form(Form $form): Form
     {
@@ -57,11 +59,11 @@ class BookResource extends Resource
                         'novel' => 'Novel',
                         'fiksi' => 'Fiksi',
                         'filsafat' => 'Filsafat',
-                        'fiksi' => 'Fiksi',
                         'komik' => 'Komik',
                         'ilmiah' => 'Ilmiah',
                     ])
-                    ->required(),
+                    ->required()
+                    ->label('Kategori'),
                 FileUpload::make('gambar')
                     ->image()
                     ->directory('books')
@@ -73,11 +75,12 @@ class BookResource extends Resource
                     ->columnSpanFull(),
                 Select::make('status')
                     ->options([
-                        'available' => 'Available',
-                        'unavailable' => 'Unavailable',
+                        'available' => 'Tersedia',
+                        'unavailable' => 'Tidak Tersedia',
                     ])
                     ->required()
-                    ->default('available'),
+                    ->default('available')
+                    ->label('Status'),
             ]);
     }
 
@@ -88,7 +91,7 @@ class BookResource extends Resource
                 Tables\Columns\TextColumn::make('gambar')
                     ->label('Gambar')
                     ->formatStateUsing(function ($state) {
-                        if (!$state) return 'No Image';
+                        if (!$state) return 'Tidak Ada Gambar';
                         
                         // Gunakan URL absolut
                         $url = asset('storage/' . $state);
@@ -100,28 +103,33 @@ class BookResource extends Resource
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('isbn')
+                    ->label('ISBN')
                     ->searchable(),
                 TextColumn::make('judul')
                     ->label('Judul')
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('penulis')
+                    ->label('Penulis')
                     ->searchable(),
                 TextColumn::make('kategori')
+                    ->label('Kategori')
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
                         'novel' => 'info',
                         'fiksi' => 'info',
                         'filsafat' => 'info',
-                        'fiksi' => 'info',
                         'komik' => 'info',
                         'ilmiah' => 'info',
+                        default => 'secondary',
                     }),
                 TextColumn::make('status')
+                    ->label('Status')
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
                         'available' => 'success',
                         'unavailable' => 'danger',
+                        default => 'secondary',
                     })
                     ->formatStateUsing(fn (string $state): string => match ($state) {
                         'available' => 'Tersedia',
@@ -131,24 +139,28 @@ class BookResource extends Resource
             ])
             ->filters([
                 SelectFilter::make('kategori')
+                    ->label('Kategori')
                     ->options([
                         'novel' => 'Novel',
+                        'fiksi' => 'Fiksi',
+                        'filsafat' => 'Filsafat',
                         'komik' => 'Komik',
                         'ilmiah' => 'Ilmiah',
                     ]),
                 SelectFilter::make('status')
+                    ->label('Status')
                     ->options([
                         'available' => 'Tersedia',
                         'unavailable' => 'Tidak Tersedia',
                     ]),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\EditAction::make()->label('Edit'),
+                Tables\Actions\DeleteAction::make()->label('Hapus'),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                    Tables\Actions\DeleteBulkAction::make()->label('Hapus Terpilih'),
                 ]),
             ]);
     }
@@ -168,15 +180,6 @@ class BookResource extends Resource
             'edit' => Pages\EditBook::route('/{record}/edit'),
         ];
     }
-
-    public static function canViewAny(): bool
-    {
-        return auth()->user()->role === 'admin' || auth()->user()->role === 'employee';
-    }
 }
-
-
-
-
 
 
