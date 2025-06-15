@@ -70,3 +70,4 @@ class MyTextBookLoans extends Page implements HasTable
             ->paginated([10, 25, 50]);
     }
 }
+

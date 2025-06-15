@@ -122,6 +122,11 @@ class BookResource extends Resource
                     ->color(fn (string $state): string => match ($state) {
                         'available' => 'success',
                         'unavailable' => 'danger',
+                    })
+                    ->formatStateUsing(fn (string $state): string => match ($state) {
+                        'available' => 'Tersedia',
+                        'unavailable' => 'Tidak Tersedia',
+                        default => $state,
                     }),
             ])
             ->filters([
@@ -133,8 +138,8 @@ class BookResource extends Resource
                     ]),
                 SelectFilter::make('status')
                     ->options([
-                        'available' => 'Available',
-                        'unavailable' => 'Unavailable',
+                        'available' => 'Tersedia',
+                        'unavailable' => 'Tidak Tersedia',
                     ]),
             ])
             ->actions([
@@ -169,6 +174,8 @@ class BookResource extends Resource
         return auth()->user()->role === 'admin' || auth()->user()->role === 'employee';
     }
 }
+
+
 
 
 
