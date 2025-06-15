@@ -13,7 +13,23 @@ class EditBook extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
-            Actions\DeleteAction::make(),
+            Actions\DeleteAction::make()->label('Hapus'),
         ];
     }
+    
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
+    }
+    
+    protected function getSavedNotificationTitle(): ?string
+    {
+        return 'Buku berhasil diperbarui';
+    }
+    
+    protected function getTitle(): string 
+    {
+        return 'Edit Buku';
+    }
 }
+
