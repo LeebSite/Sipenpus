@@ -200,7 +200,6 @@ class TextBookLoanResource extends Resource
                     ->options([
                         'pending' => 'Menunggu Persetujuan',
                         'active' => 'Dipinjam',
-                        'return_pending' => 'Menunggu Validasi Pengembalian',
                         'returned' => 'Dikembalikan',
                         'rejected' => 'Ditolak',
                     ])

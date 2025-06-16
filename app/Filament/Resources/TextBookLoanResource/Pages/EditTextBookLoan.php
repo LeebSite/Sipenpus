@@ -46,8 +46,20 @@ class EditTextBookLoan extends EditRecord
                     $textBook->stok -= $newJumlah;
                     $textBook->save();
                 }
+            } elseif ($oldStatus === 'active' && $newStatus === 'return_pending') {
+                // Member mengkonfirmasi pengembalian, tidak update stok dulu
+                // Tunggu validasi admin
+            } elseif ($oldStatus === 'return_pending' && $newStatus === 'returned') {
+                // Admin memvalidasi pengembalian, tambah stok
+                if ($textBook) {
+                    $textBook->stok += $oldJumlah;
+                    $textBook->save();
+                }
+            } elseif ($oldStatus === 'return_pending' && $newStatus === 'active') {
+                // Admin menolak pengembalian, kembalikan ke status dipinjam
+                // Tidak perlu update stok karena belum dikembalikan
             } elseif ($oldStatus === 'active' && $newStatus === 'returned') {
-                // Buku dikembalikan, tambah stok
+                // Buku dikembalikan langsung (untuk backward compatibility)
                 if ($textBook) {
                     $textBook->stok += $oldJumlah;
                     $textBook->save();

@@ -78,14 +78,36 @@ class MyTextBookLoans extends Page implements HasTable
             ])
             ->filters([])
             ->actions([
+                Action::make('return')
+                    ->label('Kembalikan')
+                    ->icon('heroicon-o-arrow-uturn-left')
+                    ->color('primary')
+                    ->visible(fn (TextBookLoan $record): bool => $record->status === 'active')
+                    ->requiresConfirmation()
+                    ->modalHeading('Konfirmasi Pengembalian Buku')
+                    ->modalDescription('Apakah Anda yakin sudah mengembalikan buku ini secara fisik ke perpustakaan? Admin akan memvalidasi pengembalian Anda.')
+                    ->modalSubmitActionLabel('Ya, Sudah Dikembalikan')
+                    ->action(function (TextBookLoan $record): void {
+                        $record->update(['status' => 'return_pending']);
+
+                        Notification::make()
+                            ->title('Konfirmasi pengembalian berhasil dikirim')
+                            ->body('Admin akan memvalidasi pengembalian buku Anda.')
+                            ->success()
+                            ->send();
+                    }),
                 Action::make('cancel')
                     ->label('Batalkan')
                     ->icon('heroicon-o-x-mark')
                     ->color('danger')
                     ->visible(fn (TextBookLoan $record): bool => $record->status === 'pending')
+                    ->requiresConfirmation()
+                    ->modalHeading('Batalkan Permintaan Peminjaman')
+                    ->modalDescription('Apakah Anda yakin ingin membatalkan permintaan peminjaman ini?')
+                    ->modalSubmitActionLabel('Ya, Batalkan')
                     ->action(function (TextBookLoan $record): void {
                         $record->delete();
-                        
+
                         Notification::make()
                             ->title('Permintaan peminjaman berhasil dibatalkan')
                             ->success()
