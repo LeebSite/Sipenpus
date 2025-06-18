@@ -9,6 +9,7 @@ use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Table;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\BadgeColumn;
+use Filament\Tables\Columns\ImageColumn;
 use Illuminate\Support\Facades\Auth;
 use Filament\Tables\Actions\Action;
 use Filament\Notifications\Notification;
@@ -39,10 +40,18 @@ class MyTextBookLoans extends Page implements HasTable
                     ->latest()
             )
             ->columns([
+                ImageColumn::make('textBook.gambar')
+                    ->label('Gambar')
+                    ->circular()
+                    ->size(60)
+                    ->defaultImageUrl(fn () => asset('images/default-book.svg')),
                 TextColumn::make('textBook.judul')
                     ->label('Judul Buku')
                     ->searchable()
-                    ->sortable(),
+                    ->sortable()
+                    ->description(fn (TextBookLoan $record): string =>
+                        "Kode: {$record->textBook->kode_buku} | {$record->textBook->penulis}"
+                    ),
                 TextColumn::make('mata_pelajaran')
                     ->label('Mata Pelajaran')
                     ->searchable(),

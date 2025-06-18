@@ -1,0 +1,12 @@
+<svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="200" height="200" rx="20" fill="#F3F4F6"/>
+  <rect x="40" y="30" width="120" height="140" rx="8" fill="#E5E7EB" stroke="#D1D5DB" stroke-width="2"/>
+  <rect x="45" y="35" width="110" height="130" rx="4" fill="#FFFFFF"/>
+  <rect x="55" y="50" width="90" height="4" rx="2" fill="#9CA3AF"/>
+  <rect x="55" y="65" width="70" height="3" rx="1.5" fill="#D1D5DB"/>
+  <rect x="55" y="75" width="80" height="3" rx="1.5" fill="#D1D5DB"/>
+  <rect x="55" y="85" width="60" height="3" rx="1.5" fill="#D1D5DB"/>
+  <circle cx="100" cy="120" r="15" fill="#E5E7EB"/>
+  <path d="M92 115 L96 119 L108 107" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="100" y="155" text-anchor="middle" fill="#6B7280" font-family="Arial, sans-serif" font-size="12">Buku Cetak</text>
+</svg>

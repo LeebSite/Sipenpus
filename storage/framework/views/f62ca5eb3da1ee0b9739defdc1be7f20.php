@@ -199,7 +199,7 @@
             <nav class="hidden lg:flex items-center space-x-6 text-sm font-medium">
                 <a href="#features" class="nav-link hover:text-primary-700 transition-colors">Fitur Kami</a>
                 <a href="#subject" class="nav-link hover:text-primary-700 transition-colors">Koleksi</a>
-                <a href="#contact" class="nav-link hover:text-primary-700 transition-colors">Contact</a>
+                <a href="#contact" class="nav-link hover:text-primary-700 transition-colors">Kontak</a>
                 <?php if(auth()->guard()->check()): ?>
                     <?php
                         $dashboardUrl = url('/dashboard');
@@ -213,7 +213,7 @@
                     ?>
                     <a href="<?php echo e($dashboardUrl); ?>" class="px-5 py-2.5 rounded-lg bg-primary-600 hover:bg-primary-700 text-white shadow-md hover:shadow-lg transition-all">Dashboard</a>
                 <?php else: ?>
-                    <a href="<?php echo e(url('/login')); ?>" class="px-5 py-2.5 rounded-lg border-2 border-primary-600 text-primary-600 hover:bg-primary-600 hover:text-white transition-all">Login</a>
+                    <a href="<?php echo e(url('/login')); ?>" class="px-5 py-2.5 rounded-lg border-2 border-primary-600 text-primary-600 hover:bg-primary-600 hover:text-white transition-all">Masuk</a>
                 <?php endif; ?>
             </nav>
         </div>
@@ -224,11 +224,11 @@
                 <nav class="flex flex-col space-y-4">
                     <a href="#features" class="font-medium hover:text-primary-700 transition-colors">Fitur Kami</a>
                     <a href="#subject" class="font-medium hover:text-primary-700 transition-colors">Koleksi</a>
-                    <a href="#contact" class="font-medium hover:text-primary-700 transition-colors">Contact</a>
+                    <a href="#contact" class="font-medium hover:text-primary-700 transition-colors">Kontak</a>
                     <?php if(auth()->guard()->check()): ?>
                         <a href="<?php echo e($dashboardUrl); ?>" class="px-4 py-2 text-center rounded-lg bg-primary-600 hover:bg-primary-700 text-white shadow-md transition-all">Dashboard</a>
                     <?php else: ?>
-                        <a href="<?php echo e(url('/login')); ?>" class="px-4 py-2 text-center rounded-lg border-2 border-primary-600 text-primary-600 hover:bg-primary-600 hover:text-white transition-all">Login</a>
+                        <a href="<?php echo e(url('/login')); ?>" class="px-4 py-2 text-center rounded-lg border-2 border-primary-600 text-primary-600 hover:bg-primary-600 hover:text-white transition-all">Masuk</a>
                     <?php endif; ?>
                 </nav>
             </div>
@@ -245,11 +245,11 @@
             <nav class="hidden lg:flex items-center space-x-6 text-sm font-medium">
                 <a href="#features" class="nav-link hover:text-primary-700 transition-colors">Fitur Kami</a>
                 <a href="#subject" class="nav-link hover:text-primary-700 transition-colors">Koleksi</a>
-                <a href="#contact" class="nav-link hover:text-primary-700 transition-colors">Contact</a>
+                <a href="#contact" class="nav-link hover:text-primary-700 transition-colors">Kontak</a>
                 <?php if(auth()->guard()->check()): ?>
                     <a href="<?php echo e($dashboardUrl); ?>" class="px-4 py-2 rounded-lg bg-primary-600 hover:bg-primary-700 text-white shadow-md transition-all text-xs">Dashboard</a>
                 <?php else: ?>
-                    <a href="<?php echo e(url('/login')); ?>" class="px-4 py-2 rounded-lg border-2 border-primary-600 text-primary-600 hover:bg-primary-600 hover:text-white transition-all text-xs">Login</a>
+                    <a href="<?php echo e(url('/login')); ?>" class="px-4 py-2 rounded-lg border-2 border-primary-600 text-primary-600 hover:bg-primary-600 hover:text-white transition-all text-xs">Masuk</a>
                 <?php endif; ?>
             </nav>
             
@@ -267,11 +267,11 @@
                 <nav class="flex flex-col space-y-3">
                     <a href="#features" class="font-medium hover:text-primary-700 transition-colors">Fitur Kami</a>
                     <a href="#subject" class="font-medium hover:text-primary-700 transition-colors">Koleksi</a>
-                    <a href="#contact" class="font-medium hover:text-primary-700 transition-colors">Contact</a>
+                    <a href="#contact" class="font-medium hover:text-primary-700 transition-colors">Kontak</a>
                     <?php if(auth()->guard()->check()): ?>
                         <a href="<?php echo e($dashboardUrl); ?>" class="px-4 py-2 text-center rounded-lg bg-primary-600 hover:bg-primary-700 text-white shadow-md transition-all">Dashboard</a>
                     <?php else: ?>
-                        <a href="<?php echo e(url('/login')); ?>" class="px-4 py-2 text-center rounded-lg border-2 border-primary-600 text-primary-600 hover:bg-primary-600 hover:text-white transition-all">Login</a>
+                        <a href="<?php echo e(url('/login')); ?>" class="px-4 py-2 text-center rounded-lg border-2 border-primary-600 text-primary-600 hover:bg-primary-600 hover:text-white transition-all">Masuk</a>
                     <?php endif; ?>
                 </nav>
             </div>

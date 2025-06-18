@@ -78,7 +78,8 @@ class TextBookResource extends Resource
                 Tables\Columns\ImageColumn::make('gambar')
                     ->label('Gambar')
                     ->circular()
-                    ->defaultImageUrl(fn () => asset('images/default-book.png')),
+                    ->size(60)
+                    ->defaultImageUrl(fn () => asset('images/default-book.svg')),
                 Tables\Columns\TextColumn::make('kode_buku')
                     ->label('Kode Buku')
                     ->searchable()
