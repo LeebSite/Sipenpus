@@ -34,11 +34,6 @@ class TextBookLoanResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\ImageColumn::make('textBook.gambar')
-                    ->label('Gambar')
-                    ->circular()
-                    ->size(50)
-                    ->defaultImageUrl(fn () => asset('images/default-book.svg')),
                 Tables\Columns\TextColumn::make('user.name')
                     ->label('Nama Peminjam')
                     ->searchable()
