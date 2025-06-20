@@ -8,6 +8,76 @@
 <?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
 <?php endif; ?>
 <?php $component->withAttributes([]); ?>
+    <!-- Custom Styles -->
+    <style>
+        .line-clamp-1 {
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .line-clamp-2 {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .book-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+        .book-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .dark .book-card:hover {
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 10px 10px -5px rgba(0, 0, 0, 0.2);
+        }
+        .book-image-placeholder {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            position: relative;
+        }
+        .dark .book-image-placeholder {
+            background: linear-gradient(135deg, #4a5568 0%, #2d3748 100%);
+        }
+        .book-image-placeholder::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%);
+            transform: translateX(-100%);
+            transition: transform 0.6s;
+        }
+        .book-card:hover .book-image-placeholder::before {
+            transform: translateX(100%);
+        }
+        .status-badge {
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
+        .info-grid {
+            display: grid;
+            gap: 0.5rem;
+        }
+        .info-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+        }
+        .info-label {
+            min-width: 4rem;
+            flex-shrink: 0;
+        }
+        @media (max-width: 640px) {
+            .book-card {
+                margin-bottom: 1rem;
+            }
+        }
+    </style>
+
     <!-- Breadcrumb Navigation -->
     <div class="mb-4">
         <nav class="flex" aria-label="Breadcrumb">
@@ -266,10 +336,11 @@
         </div>
 
         <!-- Statistik Buku -->
-        <div class="mb-4 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-800">
-            <div class="flex items-center justify-between">
-                <div class="flex items-center space-x-2">
-                    <?php if (isset($component)) { $__componentOriginal643fe1b47aec0b76658e1a0200b34b2c = $component; } ?>
+        <div class="mb-6 p-4 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-xl border border-blue-200 dark:border-blue-800">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div class="flex items-center space-x-3">
+                    <div class="flex-shrink-0">
+                        <?php if (isset($component)) { $__componentOriginal643fe1b47aec0b76658e1a0200b34b2c = $component; } ?>
 <?php if (isset($attributes)) { $__attributesOriginal643fe1b47aec0b76658e1a0200b34b2c = $attributes; } ?>
 <?php $component = BladeUI\Icons\Components\Svg::resolve([] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
 <?php $component->withName('heroicon-o-information-circle'); ?>
@@ -289,20 +360,60 @@
 <?php $component = $__componentOriginal643fe1b47aec0b76658e1a0200b34b2c; ?>
 <?php unset($__componentOriginal643fe1b47aec0b76658e1a0200b34b2c); ?>
 <?php endif; ?>
-                    <span class="text-sm font-medium text-blue-800 dark:text-blue-200">
-                        Menampilkan <?php echo e($textBooks->count()); ?> buku
+                    </div>
+                    <div>
+                        <span class="text-sm font-semibold text-blue-800 dark:text-blue-200">
+                            Menampilkan <?php echo e($textBooks->count()); ?> buku
+                        </span>
                         <!--[if BLOCK]><![endif]--><?php if($search || $selectedSubject || $selectedClass): ?>
-                            dari hasil pencarian/filter
+                            <span class="block text-xs text-blue-600 dark:text-blue-300 mt-1">
+                                dari hasil pencarian/filter
+                            </span>
                         <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
-                    </span>
+                    </div>
                 </div>
                 <!--[if BLOCK]><![endif]--><?php if($search || $selectedSubject || $selectedClass): ?>
-                    <button
-                        wire:click="clearFilters"
-                        class="text-xs text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-200 underline"
-                    >
-                        Hapus Filter
-                    </button>
+                    <?php if (isset($component)) { $__componentOriginal6330f08526bbb3ce2a0da37da512a11f = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginal6330f08526bbb3ce2a0da37da512a11f = $attributes; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'filament::components.button.index','data' => ['wire:click' => 'clearFilters','color' => 'gray','outlined' => true,'size' => 'xs']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('filament::button'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['wire:click' => 'clearFilters','color' => 'gray','outlined' => true,'size' => 'xs']); ?>
+                        <?php if (isset($component)) { $__componentOriginal643fe1b47aec0b76658e1a0200b34b2c = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginal643fe1b47aec0b76658e1a0200b34b2c = $attributes; } ?>
+<?php $component = BladeUI\Icons\Components\Svg::resolve([] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('heroicon-o-arrow-path'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\BladeUI\Icons\Components\Svg::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['class' => 'w-3 h-3 mr-1']); ?>
+<?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginal643fe1b47aec0b76658e1a0200b34b2c)): ?>
+<?php $attributes = $__attributesOriginal643fe1b47aec0b76658e1a0200b34b2c; ?>
+<?php unset($__attributesOriginal643fe1b47aec0b76658e1a0200b34b2c); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal643fe1b47aec0b76658e1a0200b34b2c)): ?>
+<?php $component = $__componentOriginal643fe1b47aec0b76658e1a0200b34b2c; ?>
+<?php unset($__componentOriginal643fe1b47aec0b76658e1a0200b34b2c); ?>
+<?php endif; ?>
+                        Reset Filter
+                     <?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginal6330f08526bbb3ce2a0da37da512a11f)): ?>
+<?php $attributes = $__attributesOriginal6330f08526bbb3ce2a0da37da512a11f; ?>
+<?php unset($__attributesOriginal6330f08526bbb3ce2a0da37da512a11f); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal6330f08526bbb3ce2a0da37da512a11f)): ?>
+<?php $component = $__componentOriginal6330f08526bbb3ce2a0da37da512a11f; ?>
+<?php unset($__componentOriginal6330f08526bbb3ce2a0da37da512a11f); ?>
+<?php endif; ?>
                 <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
             </div>
         </div>
@@ -766,35 +877,147 @@
     <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
 
     <!-- Daftar Buku -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         <!--[if BLOCK]><![endif]--><?php $__empty_1 = true; $__currentLoopData = $textBooks; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $book): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
-            <div class="bg-white dark:bg-gray-800 rounded-lg shadow dark:shadow-gray-900/20 overflow-hidden transition-colors duration-200">
-                <div class="p-4">
-                    <h3 class="text-lg font-semibold mb-2 text-gray-900 dark:text-white"><?php echo e($book->judul); ?></h3>
-                    <div class="text-sm text-gray-600 dark:text-gray-300 mb-2 space-y-1">
-                        <p><span class="font-medium text-gray-700 dark:text-gray-200">Kode:</span> <?php echo e($book->kode_buku); ?></p>
-                        <p><span class="font-medium text-gray-700 dark:text-gray-200">Penulis:</span> <?php echo e($book->penulis); ?></p>
-                        <p><span class="font-medium text-gray-700 dark:text-gray-200">Mata Pelajaran:</span> <?php echo e($book->mata_pelajaran); ?></p>
-                        <p><span class="font-medium text-gray-700 dark:text-gray-200">Kelas:</span> <?php echo e($book->kelas); ?></p>
-                        <p><span class="font-medium text-gray-700 dark:text-gray-200">Stok:</span>
-                            <span class="<?php if($book->stok > 0): ?> text-green-600 dark:text-green-400 <?php else: ?> text-red-600 dark:text-red-400 <?php endif; ?>">
-                                <?php echo e($book->stok); ?>
+            <div class="book-card bg-white dark:bg-gray-800 rounded-xl shadow-md dark:shadow-gray-900/20 overflow-hidden border border-gray-100 dark:border-gray-700">
+                <!-- Gambar Buku dengan Ukuran Konsisten -->
+                <div class="relative h-48 book-image-placeholder flex items-center justify-center overflow-hidden">
+                    <!--[if BLOCK]><![endif]--><?php if($book->gambar && file_exists(public_path('storage/' . $book->gambar))): ?>
+                        <img
+                            src="<?php echo e(asset('storage/' . $book->gambar)); ?>"
+                            alt="Cover <?php echo e($book->judul); ?>"
+                            class="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+                            loading="lazy"
+                        />
+                    <?php else: ?>
+                        <!-- Default Book Cover -->
+                        <div class="flex flex-col items-center justify-center text-center p-4">
+                            <?php if (isset($component)) { $__componentOriginal643fe1b47aec0b76658e1a0200b34b2c = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginal643fe1b47aec0b76658e1a0200b34b2c = $attributes; } ?>
+<?php $component = BladeUI\Icons\Components\Svg::resolve([] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('heroicon-o-book-open'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\BladeUI\Icons\Components\Svg::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['class' => 'w-16 h-16 text-blue-400 dark:text-blue-300 mb-2']); ?>
+<?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginal643fe1b47aec0b76658e1a0200b34b2c)): ?>
+<?php $attributes = $__attributesOriginal643fe1b47aec0b76658e1a0200b34b2c; ?>
+<?php unset($__attributesOriginal643fe1b47aec0b76658e1a0200b34b2c); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal643fe1b47aec0b76658e1a0200b34b2c)): ?>
+<?php $component = $__componentOriginal643fe1b47aec0b76658e1a0200b34b2c; ?>
+<?php unset($__componentOriginal643fe1b47aec0b76658e1a0200b34b2c); ?>
+<?php endif; ?>
+                            <span class="text-xs font-medium text-blue-600 dark:text-blue-300 line-clamp-2">
+                                <?php echo e(Str::limit($book->judul, 30)); ?>
 
                             </span>
-                        </p>
+                        </div>
+                    <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
+
+                    <!-- Status Badge -->
+                    <div class="absolute top-3 right-3">
+                        <!--[if BLOCK]><![endif]--><?php if($book->stok > 0): ?>
+                            <span class="status-badge inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-green-100/90 text-green-800 dark:bg-green-900/50 dark:text-green-300 border border-green-200 dark:border-green-700">
+                                <span class="w-1.5 h-1.5 bg-green-500 rounded-full mr-1.5 animate-pulse"></span>
+                                Tersedia
+                            </span>
+                        <?php else: ?>
+                            <span class="status-badge inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-red-100/90 text-red-800 dark:bg-red-900/50 dark:text-red-300 border border-red-200 dark:border-red-700">
+                                <span class="w-1.5 h-1.5 bg-red-500 rounded-full mr-1.5"></span>
+                                Habis
+                            </span>
+                        <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
                     </div>
-                    <div class="mt-4">
+                </div>
+
+                <!-- Konten Buku -->
+                <div class="p-4 flex flex-col h-full">
+                    <!-- Judul Buku -->
+                    <h3 class="text-lg font-bold mb-2 text-gray-900 dark:text-white line-clamp-2 leading-tight">
+                        <?php echo e($book->judul); ?>
+
+                    </h3>
+
+                    <!-- Informasi Buku -->
+                    <div class="info-grid text-sm mb-4 flex-grow">
+                        <div class="info-item">
+                            <span class="info-label font-medium text-gray-500 dark:text-gray-400">Kode:</span>
+                            <span class="text-gray-700 dark:text-gray-300 font-mono text-xs bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded-md">
+                                <?php echo e($book->kode_buku); ?>
+
+                            </span>
+                        </div>
+
+                        <div class="info-item">
+                            <span class="info-label font-medium text-gray-500 dark:text-gray-400">Penulis:</span>
+                            <span class="text-gray-700 dark:text-gray-300 line-clamp-1 font-medium"><?php echo e($book->penulis); ?></span>
+                        </div>
+
+                        <div class="info-item">
+                            <span class="info-label font-medium text-gray-500 dark:text-gray-400">Mapel:</span>
+                            <span class="text-gray-700 dark:text-gray-300 line-clamp-1"><?php echo e($book->mata_pelajaran); ?></span>
+                        </div>
+
+                        <div class="info-item">
+                            <span class="info-label font-medium text-gray-500 dark:text-gray-400">Kelas:</span>
+                            <span class="inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-semibold bg-blue-100 text-blue-800 dark:bg-blue-900/40 dark:text-blue-300 border border-blue-200 dark:border-blue-700">
+                                <?php echo e($book->kelas); ?>
+
+                            </span>
+                        </div>
+
+                        <div class="flex items-center justify-between pt-3 mt-2 border-t border-gray-100 dark:border-gray-700">
+                            <span class="font-semibold text-gray-600 dark:text-gray-400">Stok Tersedia:</span>
+                            <div class="flex items-center space-x-2">
+                                <span class="font-bold text-xl <?php if($book->stok > 0): ?> text-green-600 dark:text-green-400 <?php else: ?> text-red-600 dark:text-red-400 <?php endif; ?>">
+                                    <?php echo e($book->stok); ?>
+
+                                </span>
+                                <!--[if BLOCK]><![endif]--><?php if($book->stok > 0): ?>
+                                    <span class="text-xs text-green-600 dark:text-green-400 font-medium">unit</span>
+                                <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tombol Aksi -->
+                    <div class="mt-auto">
                         <!--[if BLOCK]><![endif]--><?php if($book->stok > 0): ?>
                             <?php if (isset($component)) { $__componentOriginal6330f08526bbb3ce2a0da37da512a11f = $component; } ?>
 <?php if (isset($attributes)) { $__attributesOriginal6330f08526bbb3ce2a0da37da512a11f = $attributes; } ?>
-<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'filament::components.button.index','data' => ['wire:click' => 'selectBook('.e($book->id).')','size' => 'sm']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'filament::components.button.index','data' => ['wire:click' => 'selectBook('.e($book->id).')','size' => 'sm','class' => 'w-full justify-center','color' => 'primary']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
 <?php $component->withName('filament::button'); ?>
 <?php if ($component->shouldRender()): ?>
 <?php $__env->startComponent($component->resolveView(), $component->data()); ?>
 <?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
 <?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
 <?php endif; ?>
-<?php $component->withAttributes(['wire:click' => 'selectBook('.e($book->id).')','size' => 'sm']); ?>
+<?php $component->withAttributes(['wire:click' => 'selectBook('.e($book->id).')','size' => 'sm','class' => 'w-full justify-center','color' => 'primary']); ?>
+                                <?php if (isset($component)) { $__componentOriginal643fe1b47aec0b76658e1a0200b34b2c = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginal643fe1b47aec0b76658e1a0200b34b2c = $attributes; } ?>
+<?php $component = BladeUI\Icons\Components\Svg::resolve([] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('heroicon-o-plus'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\BladeUI\Icons\Components\Svg::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['class' => 'w-4 h-4 mr-1']); ?>
+<?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginal643fe1b47aec0b76658e1a0200b34b2c)): ?>
+<?php $attributes = $__attributesOriginal643fe1b47aec0b76658e1a0200b34b2c; ?>
+<?php unset($__attributesOriginal643fe1b47aec0b76658e1a0200b34b2c); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal643fe1b47aec0b76658e1a0200b34b2c)): ?>
+<?php $component = $__componentOriginal643fe1b47aec0b76658e1a0200b34b2c; ?>
+<?php unset($__componentOriginal643fe1b47aec0b76658e1a0200b34b2c); ?>
+<?php endif; ?>
                                 Pinjam Buku
                              <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
@@ -809,14 +1032,34 @@
                         <?php else: ?>
                             <?php if (isset($component)) { $__componentOriginal6330f08526bbb3ce2a0da37da512a11f = $component; } ?>
 <?php if (isset($attributes)) { $__attributesOriginal6330f08526bbb3ce2a0da37da512a11f = $attributes; } ?>
-<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'filament::components.button.index','data' => ['disabled' => true,'size' => 'sm','color' => 'gray']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'filament::components.button.index','data' => ['disabled' => true,'size' => 'sm','color' => 'gray','class' => 'w-full justify-center']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
 <?php $component->withName('filament::button'); ?>
 <?php if ($component->shouldRender()): ?>
 <?php $__env->startComponent($component->resolveView(), $component->data()); ?>
 <?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
 <?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
 <?php endif; ?>
-<?php $component->withAttributes(['disabled' => true,'size' => 'sm','color' => 'gray']); ?>
+<?php $component->withAttributes(['disabled' => true,'size' => 'sm','color' => 'gray','class' => 'w-full justify-center']); ?>
+                                <?php if (isset($component)) { $__componentOriginal643fe1b47aec0b76658e1a0200b34b2c = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginal643fe1b47aec0b76658e1a0200b34b2c = $attributes; } ?>
+<?php $component = BladeUI\Icons\Components\Svg::resolve([] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('heroicon-o-x-mark'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\BladeUI\Icons\Components\Svg::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['class' => 'w-4 h-4 mr-1']); ?>
+<?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginal643fe1b47aec0b76658e1a0200b34b2c)): ?>
+<?php $attributes = $__attributesOriginal643fe1b47aec0b76658e1a0200b34b2c; ?>
+<?php unset($__attributesOriginal643fe1b47aec0b76658e1a0200b34b2c); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal643fe1b47aec0b76658e1a0200b34b2c)): ?>
+<?php $component = $__componentOriginal643fe1b47aec0b76658e1a0200b34b2c; ?>
+<?php unset($__componentOriginal643fe1b47aec0b76658e1a0200b34b2c); ?>
+<?php endif; ?>
                                 Stok Habis
                              <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
@@ -833,9 +1076,10 @@
                 </div>
             </div>
         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
-            <div class="col-span-full p-6 text-center">
-                <div class="flex flex-col items-center justify-center space-y-2">
-                    <?php if (isset($component)) { $__componentOriginal643fe1b47aec0b76658e1a0200b34b2c = $component; } ?>
+            <div class="col-span-full p-12 text-center">
+                <div class="flex flex-col items-center justify-center space-y-4">
+                    <div class="w-24 h-24 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center">
+                        <?php if (isset($component)) { $__componentOriginal643fe1b47aec0b76658e1a0200b34b2c = $component; } ?>
 <?php if (isset($attributes)) { $__attributesOriginal643fe1b47aec0b76658e1a0200b34b2c = $attributes; } ?>
 <?php $component = BladeUI\Icons\Components\Svg::resolve([] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
 <?php $component->withName('heroicon-o-book-open'); ?>
@@ -855,7 +1099,57 @@
 <?php $component = $__componentOriginal643fe1b47aec0b76658e1a0200b34b2c; ?>
 <?php unset($__componentOriginal643fe1b47aec0b76658e1a0200b34b2c); ?>
 <?php endif; ?>
-                    <p class="text-gray-500 dark:text-gray-400">Tidak ada buku yang tersedia dengan kriteria pencarian saat ini.</p>
+                    </div>
+                    <div class="space-y-2">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Tidak Ada Buku Ditemukan</h3>
+                        <p class="text-gray-500 dark:text-gray-400 max-w-md">
+                            Tidak ada buku yang tersedia dengan kriteria pencarian saat ini.
+                            Coba ubah filter atau kata kunci pencarian Anda.
+                        </p>
+                    </div>
+                    <!--[if BLOCK]><![endif]--><?php if($search || $selectedSubject || $selectedClass): ?>
+                        <?php if (isset($component)) { $__componentOriginal6330f08526bbb3ce2a0da37da512a11f = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginal6330f08526bbb3ce2a0da37da512a11f = $attributes; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'filament::components.button.index','data' => ['wire:click' => 'clearFilters','color' => 'gray','outlined' => true,'size' => 'sm']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('filament::button'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['wire:click' => 'clearFilters','color' => 'gray','outlined' => true,'size' => 'sm']); ?>
+                            <?php if (isset($component)) { $__componentOriginal643fe1b47aec0b76658e1a0200b34b2c = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginal643fe1b47aec0b76658e1a0200b34b2c = $attributes; } ?>
+<?php $component = BladeUI\Icons\Components\Svg::resolve([] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('heroicon-o-arrow-path'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\BladeUI\Icons\Components\Svg::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['class' => 'w-4 h-4 mr-1']); ?>
+<?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginal643fe1b47aec0b76658e1a0200b34b2c)): ?>
+<?php $attributes = $__attributesOriginal643fe1b47aec0b76658e1a0200b34b2c; ?>
+<?php unset($__attributesOriginal643fe1b47aec0b76658e1a0200b34b2c); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal643fe1b47aec0b76658e1a0200b34b2c)): ?>
+<?php $component = $__componentOriginal643fe1b47aec0b76658e1a0200b34b2c; ?>
+<?php unset($__componentOriginal643fe1b47aec0b76658e1a0200b34b2c); ?>
+<?php endif; ?>
+                            Reset Filter
+                         <?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginal6330f08526bbb3ce2a0da37da512a11f)): ?>
+<?php $attributes = $__attributesOriginal6330f08526bbb3ce2a0da37da512a11f; ?>
+<?php unset($__attributesOriginal6330f08526bbb3ce2a0da37da512a11f); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal6330f08526bbb3ce2a0da37da512a11f)): ?>
+<?php $component = $__componentOriginal6330f08526bbb3ce2a0da37da512a11f; ?>
+<?php unset($__componentOriginal6330f08526bbb3ce2a0da37da512a11f); ?>
+<?php endif; ?>
+                    <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
                 </div>
             </div>
         <?php endif; ?><!--[if ENDBLOCK]><![endif]-->

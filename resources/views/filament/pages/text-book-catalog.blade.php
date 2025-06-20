@@ -1,4 +1,74 @@
 <x-filament-panels::page>
+    <!-- Custom Styles -->
+    <style>
+        .line-clamp-1 {
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .line-clamp-2 {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .book-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+        .book-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .dark .book-card:hover {
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 10px 10px -5px rgba(0, 0, 0, 0.2);
+        }
+        .book-image-placeholder {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            position: relative;
+        }
+        .dark .book-image-placeholder {
+            background: linear-gradient(135deg, #4a5568 0%, #2d3748 100%);
+        }
+        .book-image-placeholder::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%);
+            transform: translateX(-100%);
+            transition: transform 0.6s;
+        }
+        .book-card:hover .book-image-placeholder::before {
+            transform: translateX(100%);
+        }
+        .status-badge {
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
+        .info-grid {
+            display: grid;
+            gap: 0.5rem;
+        }
+        .info-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+        }
+        .info-label {
+            min-width: 4rem;
+            flex-shrink: 0;
+        }
+        @media (max-width: 640px) {
+            .book-card {
+                margin-bottom: 1rem;
+            }
+        }
+    </style>
+
     <!-- Breadcrumb Navigation -->
     <div class="mb-4">
         <nav class="flex" aria-label="Breadcrumb">
@@ -102,24 +172,33 @@
         </div>
 
         <!-- Statistik Buku -->
-        <div class="mb-4 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-800">
-            <div class="flex items-center justify-between">
-                <div class="flex items-center space-x-2">
-                    <x-heroicon-o-information-circle class="w-5 h-5 text-blue-600 dark:text-blue-400" />
-                    <span class="text-sm font-medium text-blue-800 dark:text-blue-200">
-                        Menampilkan {{ $textBooks->count() }} buku
+        <div class="mb-6 p-4 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-xl border border-blue-200 dark:border-blue-800">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div class="flex items-center space-x-3">
+                    <div class="flex-shrink-0">
+                        <x-heroicon-o-information-circle class="w-5 h-5 text-blue-600 dark:text-blue-400" />
+                    </div>
+                    <div>
+                        <span class="text-sm font-semibold text-blue-800 dark:text-blue-200">
+                            Menampilkan {{ $textBooks->count() }} buku
+                        </span>
                         @if($search || $selectedSubject || $selectedClass)
-                            dari hasil pencarian/filter
+                            <span class="block text-xs text-blue-600 dark:text-blue-300 mt-1">
+                                dari hasil pencarian/filter
+                            </span>
                         @endif
-                    </span>
+                    </div>
                 </div>
                 @if($search || $selectedSubject || $selectedClass)
-                    <button
+                    <x-filament::button
                         wire:click="clearFilters"
-                        class="text-xs text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-200 underline"
+                        color="gray"22
+                        outlined
+                        size="xs"
                     >
-                        Hapus Filter
-                    </button>
+                        <x-heroicon-o-arrow-path class="w-3 h-3 mr-1" />
+                        Reset Filter
+                    </x-filament::button>
                 @endif
             </div>
         </div>
@@ -259,29 +338,110 @@
     @endif
 
     <!-- Daftar Buku -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         @forelse($textBooks as $book)
-            <div class="bg-white dark:bg-gray-800 rounded-lg shadow dark:shadow-gray-900/20 overflow-hidden transition-colors duration-200">
-                <div class="p-4">
-                    <h3 class="text-lg font-semibold mb-2 text-gray-900 dark:text-white">{{ $book->judul }}</h3>
-                    <div class="text-sm text-gray-600 dark:text-gray-300 mb-2 space-y-1">
-                        <p><span class="font-medium text-gray-700 dark:text-gray-200">Kode:</span> {{ $book->kode_buku }}</p>
-                        <p><span class="font-medium text-gray-700 dark:text-gray-200">Penulis:</span> {{ $book->penulis }}</p>
-                        <p><span class="font-medium text-gray-700 dark:text-gray-200">Mata Pelajaran:</span> {{ $book->mata_pelajaran }}</p>
-                        <p><span class="font-medium text-gray-700 dark:text-gray-200">Kelas:</span> {{ $book->kelas }}</p>
-                        <p><span class="font-medium text-gray-700 dark:text-gray-200">Stok:</span>
-                            <span class="@if($book->stok > 0) text-green-600 dark:text-green-400 @else text-red-600 dark:text-red-400 @endif">
-                                {{ $book->stok }}
+            <div class="book-card bg-white dark:bg-gray-800 rounded-xl shadow-md dark:shadow-gray-900/20 overflow-hidden border border-gray-100 dark:border-gray-700">
+                <!-- Gambar Buku dengan Ukuran Konsisten -->
+                <div class="relative h-48 book-image-placeholder flex items-center justify-center overflow-hidden">
+                    @if($book->gambar && file_exists(public_path('storage/' . $book->gambar)))
+                        <img
+                            src="{{ asset('storage/' . $book->gambar) }}"
+                            alt="Cover {{ $book->judul }}"
+                            class="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+                            loading="lazy"
+                        />
+                    @else
+                        <!-- Default Book Cover -->
+                        <div class="flex flex-col items-center justify-center text-center p-4">
+                            <x-heroicon-o-book-open class="w-16 h-16 text-blue-400 dark:text-blue-300 mb-2" />
+                            <span class="text-xs font-medium text-blue-600 dark:text-blue-300 line-clamp-2">
+                                {{ Str::limit($book->judul, 30) }}
                             </span>
-                        </p>
-                    </div>
-                    <div class="mt-4">
+                        </div>
+                    @endif
+
+                    <!-- Status Badge -->
+                    <div class="absolute top-3 right-3">
                         @if($book->stok > 0)
-                            <x-filament::button wire:click="selectBook({{ $book->id }})" size="sm">
+                            <span class="status-badge inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-green-100/90 text-green-800 dark:bg-green-900/50 dark:text-green-300 border border-green-200 dark:border-green-700">
+                                <span class="w-1.5 h-1.5 bg-green-500 rounded-full mr-1.5 animate-pulse"></span>
+                                Tersedia
+                            </span>
+                        @else
+                            <span class="status-badge inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-red-100/90 text-red-800 dark:bg-red-900/50 dark:text-red-300 border border-red-200 dark:border-red-700">
+                                <span class="w-1.5 h-1.5 bg-red-500 rounded-full mr-1.5"></span>
+                                Habis
+                            </span>
+                        @endif
+                    </div>
+                </div>
+
+                <!-- Konten Buku -->
+                <div class="p-4 flex flex-col h-full">
+                    <!-- Judul Buku -->
+                    <h3 class="text-lg font-bold mb-2 text-gray-900 dark:text-white line-clamp-2 leading-tight">
+                        {{ $book->judul }}
+                    </h3>
+
+                    <!-- Informasi Buku -->
+                    <div class="info-grid text-sm mb-4 flex-grow">
+                        <div class="info-item">
+                            <span class="info-label font-medium text-gray-500 dark:text-gray-400">Kode:</span>
+                            <span class="text-gray-700 dark:text-gray-300 font-mono text-xs bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded-md">
+                                {{ $book->kode_buku }}
+                            </span>
+                        </div>
+
+                        <div class="info-item">
+                            <span class="info-label font-medium text-gray-500 dark:text-gray-400">Penulis:</span>
+                            <span class="text-gray-700 dark:text-gray-300 line-clamp-1 font-medium">{{ $book->penulis }}</span>
+                        </div>
+
+                        <div class="info-item">
+                            <span class="info-label font-medium text-gray-500 dark:text-gray-400">Mapel:</span>
+                            <span class="text-gray-700 dark:text-gray-300 line-clamp-1">{{ $book->mata_pelajaran }}</span>
+                        </div>
+
+                        <div class="info-item">
+                            <span class="info-label font-medium text-gray-500 dark:text-gray-400">Kelas:</span>
+                            <span class="inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-semibold bg-blue-100 text-blue-800 dark:bg-blue-900/40 dark:text-blue-300 border border-blue-200 dark:border-blue-700">
+                                {{ $book->kelas }}
+                            </span>
+                        </div>
+
+                        <div class="flex items-center justify-between pt-3 mt-2 border-t border-gray-100 dark:border-gray-700">
+                            <span class="font-semibold text-gray-600 dark:text-gray-400">Stok Tersedia:</span>
+                            <div class="flex items-center space-x-2">
+                                <span class="font-bold text-xl @if($book->stok > 0) text-green-600 dark:text-green-400 @else text-red-600 dark:text-red-400 @endif">
+                                    {{ $book->stok }}
+                                </span>
+                                @if($book->stok > 0)
+                                    <span class="text-xs text-green-600 dark:text-green-400 font-medium">unit</span>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tombol Aksi -->
+                    <div class="mt-auto">
+                        @if($book->stok > 0)
+                            <x-filament::button
+                                wire:click="selectBook({{ $book->id }})"
+                                size="sm"
+                                class="w-full justify-center"
+                                color="primary"
+                            >
+                                <x-heroicon-o-plus class="w-4 h-4 mr-1" />
                                 Pinjam Buku
                             </x-filament::button>
                         @else
-                            <x-filament::button disabled size="sm" color="gray">
+                            <x-filament::button
+                                disabled
+                                size="sm"
+                                color="gray"
+                                class="w-full justify-center"
+                            >
+                                <x-heroicon-o-x-mark class="w-4 h-4 mr-1" />
                                 Stok Habis
                             </x-filament::button>
                         @endif
@@ -289,10 +449,29 @@
                 </div>
             </div>
         @empty
-            <div class="col-span-full p-6 text-center">
-                <div class="flex flex-col items-center justify-center space-y-2">
-                    <x-heroicon-o-book-open class="w-12 h-12 text-gray-400 dark:text-gray-500" />
-                    <p class="text-gray-500 dark:text-gray-400">Tidak ada buku yang tersedia dengan kriteria pencarian saat ini.</p>
+            <div class="col-span-full p-12 text-center">
+                <div class="flex flex-col items-center justify-center space-y-4">
+                    <div class="w-24 h-24 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center">
+                        <x-heroicon-o-book-open class="w-12 h-12 text-gray-400 dark:text-gray-500" />
+                    </div>
+                    <div class="space-y-2">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Tidak Ada Buku Ditemukan</h3>
+                        <p class="text-gray-500 dark:text-gray-400 max-w-md">
+                            Tidak ada buku yang tersedia dengan kriteria pencarian saat ini.
+                            Coba ubah filter atau kata kunci pencarian Anda.
+                        </p>
+                    </div>
+                    @if($search || $selectedSubject || $selectedClass)
+                        <x-filament::button
+                            wire:click="clearFilters"
+                            color="gray"
+                            outlined
+                            size="sm"
+                        >
+                            <x-heroicon-o-arrow-path class="w-4 h-4 mr-1" />
+                            Reset Filter
+                        </x-filament::button>
+                    @endif
                 </div>
             </div>
         @endforelse

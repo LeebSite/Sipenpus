@@ -69,7 +69,7 @@ class TextBookCatalog extends Page
     public function getTextBooks(): Collection
     {
         return TextBook::query()
-            ->select(['id', 'judul', 'kode_buku', 'penulis', 'mata_pelajaran', 'kelas', 'stok'])
+            ->select(['id', 'judul', 'kode_buku', 'penulis', 'mata_pelajaran', 'kelas', 'stok', 'gambar'])
             ->when($this->search, fn (Builder $query) => $query->where(function ($query) {
                 $query->where('judul', 'like', "%{$this->search}%")
                     ->orWhere('penulis', 'like', "%{$this->search}%")
