@@ -418,15 +418,12 @@
             </div>
         </div>
     </div>
-
-
-
     <!-- Daftar Buku -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         <!--[if BLOCK]><![endif]--><?php $__empty_1 = true; $__currentLoopData = $textBooks; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $book): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
-            <div class="book-card bg-white dark:bg-gray-800 rounded-xl shadow-md dark:shadow-gray-900/20 overflow-hidden border border-gray-100 dark:border-gray-700">
+            <div class="book-card bg-white dark:bg-gray-800 rounded-xl shadow-md dark:shadow-gray-900/20 overflow-hidden border border-gray-100 dark:border-gray-700 flex flex-col">
                 <!-- Gambar Buku dengan Ukuran Konsisten -->
-                <div class="relative h-48 book-image-placeholder flex items-center justify-center overflow-hidden">
+                <div class="relative h-48 book-image-placeholder bg-gray-50 dark:bg-gray-700 flex items-center justify-center overflow-hidden flex-shrink-0">
                     <!--[if BLOCK]><![endif]--><?php if($book->gambar && file_exists(public_path('storage/' . $book->gambar))): ?>
                         <img
                             src="<?php echo e(asset('storage/' . $book->gambar)); ?>"
@@ -481,7 +478,7 @@
                 </div>
 
                 <!-- Konten Buku -->
-                <div class="p-4 flex flex-col h-full">
+                <div class="p-4 flex flex-col flex-grow">
                     <!-- Judul Buku -->
                     <h3 class="text-base font-bold mb-3 text-gray-900 dark:text-white line-clamp-2 leading-snug">
                         <?php echo e($book->judul); ?>
@@ -489,7 +486,7 @@
                     </h3>
 
                     <!-- Informasi Buku -->
-                    <div class="space-y-2 text-sm flex-grow">
+                    <div class="space-y-2 text-sm mb-4">
                         <div class="flex items-center justify-between">
                             <span class="text-gray-500 dark:text-gray-400 text-xs">Kode:</span>
                             <span class="text-gray-700 dark:text-gray-300 font-mono text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded">
@@ -531,7 +528,7 @@
                     </div>
 
                     <!-- Tombol Aksi -->
-                    <div class="mt-3">
+                    <div class="border-4 border-red-500 bg-yellow-200 p-2">
                         <!--[if BLOCK]><![endif]--><?php if($book->stok > 0): ?>
                             <?php if (isset($component)) { $__componentOriginal6330f08526bbb3ce2a0da37da512a11f = $component; } ?>
 <?php if (isset($attributes)) { $__attributesOriginal6330f08526bbb3ce2a0da37da512a11f = $attributes; } ?>
@@ -553,7 +550,7 @@
 <?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
 <?php $attributes = $attributes->except(\BladeUI\Icons\Components\Svg::ignoredParameterNames()); ?>
 <?php endif; ?>
-<?php $component->withAttributes(['class' => 'w-4 h-4 mr-1']); ?>
+<?php $component->withAttributes(['class' => 'w-4 h-4']); ?>
 <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__attributesOriginal643fe1b47aec0b76658e1a0200b34b2c)): ?>
@@ -625,6 +622,19 @@
 <?php $component = $__componentOriginal6330f08526bbb3ce2a0da37da512a11f; ?>
 <?php unset($__componentOriginal6330f08526bbb3ce2a0da37da512a11f); ?>
 <?php endif; ?>
+                        <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
+                        <!--[if BLOCK]><![endif]--><?php if($book->stok > 0): ?>
+                        <?php else: ?>
+                            <button
+                                type="button"
+                                disabled
+                                class="w-full mt-2 bg-red-500 dark:bg-red-600 text-white font-semibold py-2 px-3 rounded-md cursor-not-allowed flex items-center justify-center space-x-1.5 opacity-75 text-sm"
+                            >
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                </svg>
+                                <span>Stok Habis</span>
+                            </button>
                         <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
                     </div>
                 </div>
