@@ -163,13 +163,16 @@
 
         <!-- Tombol Kembali -->
         <div class="flex justify-end mt-6">
-            <a href="{{ url('/member-books') }}" 
-                class="inline-flex items-center px-4 py-2 bg-white hover:bg-gray-50 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200 text-sm font-medium rounded-lg border border-gray-200 dark:border-gray-600 transition-all duration-200">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-                </svg>
+            <x-filament::button
+                tag="a"
+                href="{{ App\Filament\Pages\MemberBooks::getUrl() }}"
+                color="gray"
+                outlined
+                size="sm"
+            >
+                <x-heroicon-o-arrow-left class="w-4 h-4 mr-2" />
                 Kembali ke Katalog
-            </a>
+            </x-filament::button>
         </div>
     </div>
 </x-filament-panels::page>
