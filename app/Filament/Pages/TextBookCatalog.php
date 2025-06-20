@@ -5,6 +5,7 @@ namespace App\Filament\Pages;
 use App\Models\TextBook;
 use App\Models\TextBookLoan;
 use App\Filament\Pages\Dashboard;
+use App\Filament\Pages\TextBookLoanForm;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -28,17 +29,7 @@ class TextBookCatalog extends Page
     public ?string $selectedSubject = '';
     public ?string $selectedClass = '';
     public Collection $textBooks;
-    public ?TextBook $selectedBook = null;
     public int $perPage = 12;
-    
-    // Form properties
-    public ?string $mata_pelajaran = '';
-    public ?string $guru_pengampu = '';
-    public ?string $kelas_keperluan = '';
-    public ?int $jumlah = 1;
-    public $loan_date;
-    public $return_date;
-    public ?string $notes = '';
     
     public function mount(): void
     {
@@ -47,8 +38,6 @@ class TextBookCatalog extends Page
         }
 
         $this->textBooks = $this->getTextBooks();
-        $this->loan_date = now()->format('Y-m-d');
-        $this->return_date = now()->addDays(7)->format('Y-m-d');
     }
 
     public function getTitle(): string
@@ -105,129 +94,33 @@ class TextBookCatalog extends Page
         $this->textBooks = $this->getTextBooks();
     }
     
-    public function selectBook(int $bookId): void
+    public function goToLoanForm(int $bookId): void
     {
-        $this->selectedBook = TextBook::find($bookId);
-        $this->mata_pelajaran = $this->selectedBook->mata_pelajaran;
-        $this->kelas_keperluan = $this->selectedBook->kelas;
-    }
-    
-    public function cancelSelection(): void
-    {
-        $this->selectedBook = null;
-        $this->resetFormFields();
-    }
-    
-    public function resetFormFields(): void
-    {
-        $this->mata_pelajaran = '';
-        $this->guru_pengampu = '';
-        $this->kelas_keperluan = '';
-        $this->jumlah = 1;
-        $this->loan_date = now()->format('Y-m-d');
-        $this->return_date = now()->addDays(7)->format('Y-m-d');
-        $this->notes = '';
-    }
-    
-    public function submitLoanRequest(): void
-    {
-        try {
-            // Validasi dasar
-            if (!$this->selectedBook) {
-                Notification::make()
-                    ->title('Error')
-                    ->body('Tidak ada buku yang dipilih')
-                    ->danger()
-                    ->send();
-                return;
-            }
+        $book = TextBook::find($bookId);
 
-            // Validasi stok
-            if ($this->selectedBook->stok <= 0) {
-                Notification::make()
-                    ->title('Error')
-                    ->body('Stok buku tidak tersedia')
-                    ->danger()
-                    ->send();
-                return;
-            }
-
-            // Validasi form
-            $this->validate([
-                'mata_pelajaran' => 'required|string|max:255',
-                'guru_pengampu' => 'required|string|max:255',
-                'kelas_keperluan' => 'required|string|max:255',
-                'jumlah' => 'required|integer|min:1|max:' . $this->selectedBook->stok,
-                'loan_date' => 'required|date|after_or_equal:today',
-                'return_date' => 'required|date|after:loan_date',
-                'notes' => 'nullable|string|max:1000',
-            ], [
-                'mata_pelajaran.required' => 'Mata pelajaran wajib diisi',
-                'guru_pengampu.required' => 'Guru pengampu wajib diisi',
-                'kelas_keperluan.required' => 'Kelas/keperluan wajib diisi',
-                'jumlah.required' => 'Jumlah wajib diisi',
-                'jumlah.min' => 'Jumlah minimal 1',
-                'jumlah.max' => 'Jumlah melebihi stok yang tersedia',
-                'loan_date.required' => 'Tanggal pinjam wajib diisi',
-                'loan_date.after_or_equal' => 'Tanggal pinjam tidak boleh kurang dari hari ini',
-                'return_date.required' => 'Tanggal kembali wajib diisi',
-                'return_date.after' => 'Tanggal kembali harus setelah tanggal pinjam',
-                'notes.max' => 'Catatan maksimal 1000 karakter',
-            ]);
-
-            // Cek apakah user sudah memiliki peminjaman aktif untuk buku yang sama
-            $existingLoan = TextBookLoan::where('user_id', Auth::id())
-                ->where('text_book_id', $this->selectedBook->id)
-                ->whereIn('status', ['pending', 'active'])
-                ->exists();
-
-            if ($existingLoan) {
-                Notification::make()
-                    ->title('Error')
-                    ->body('Anda sudah memiliki peminjaman aktif untuk buku ini')
-                    ->danger()
-                    ->send();
-                return;
-            }
-
-            // Buat peminjaman
-            TextBookLoan::create([
-                'user_id' => Auth::id(),
-                'text_book_id' => $this->selectedBook->id,
-                'mata_pelajaran' => $this->mata_pelajaran,
-                'guru_pengampu' => $this->guru_pengampu,
-                'kelas_keperluan' => $this->kelas_keperluan,
-                'jumlah' => $this->jumlah,
-                'loan_date' => $this->loan_date,
-                'return_date' => $this->return_date,
-                'status' => 'pending',
-                'notes' => $this->notes,
-            ]);
-
-            // Tampilkan notifikasi sukses
-            Notification::make()
-                ->title('Berhasil!')
-                ->body('Permintaan peminjaman berhasil dibuat dan menunggu persetujuan admin')
-                ->success()
-                ->send();
-
-            // Reset form dan selection
-            $this->selectedBook = null;
-            $this->resetFormFields();
-            $this->textBooks = $this->getTextBooks();
-
-        } catch (\Illuminate\Validation\ValidationException $e) {
-            // Validation errors akan ditampilkan otomatis oleh Livewire
-            throw $e;
-        } catch (\Exception $e) {
-            // Handle unexpected errors
+        if (!$book) {
             Notification::make()
                 ->title('Error')
-                ->body('Terjadi kesalahan saat memproses permintaan: ' . $e->getMessage())
+                ->body('Buku tidak ditemukan')
                 ->danger()
                 ->send();
+            return;
         }
+
+        if ($book->stok <= 0) {
+            Notification::make()
+                ->title('Error')
+                ->body('Stok buku tidak tersedia')
+                ->danger()
+                ->send();
+            return;
+        }
+
+        // Redirect ke halaman form peminjaman dengan parameter book_id
+        $this->redirect(TextBookLoanForm::getUrl() . '?book_id=' . $bookId);
     }
+    
+
     
     public function getSubjectsProperty(): array
     {

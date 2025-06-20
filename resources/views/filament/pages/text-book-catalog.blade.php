@@ -192,10 +192,9 @@
                 @if($search || $selectedSubject || $selectedClass)
                     <x-filament::button
                         wire:click="clearFilters"
-                        color="gray"22
+                        color="gray"
                         outlined
-                        size="xs"
-                    >
+                        size="xs">
                         <x-heroicon-o-arrow-path class="w-3 h-3 mr-1" />
                         Reset Filter
                     </x-filament::button>
@@ -204,138 +203,7 @@
         </div>
     </div>
 
-    @if($selectedBook)
-        <!-- Form Peminjaman -->
-        <div class="mb-6 p-4 bg-white dark:bg-gray-800 rounded-lg shadow dark:shadow-gray-900/20">
-            <div class="flex justify-between items-start mb-4">
-                <h2 class="text-xl font-semibold text-gray-900 dark:text-white">Form Peminjaman Buku Cetak</h2>
-                <button wire:click="cancelSelection" class="text-gray-500 hover:text-red-500 dark:text-gray-400 dark:hover:text-red-400">
-                    <x-heroicon-o-x-mark class="w-5 h-5" />
-                </button>
-            </div>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                    <label class="fi-fo-field-wrp-label inline-flex items-center gap-x-3">
-                        <span class="text-sm font-medium leading-6 text-gray-950 dark:text-white">
-                            Judul Buku
-                        </span>
-                    </label>
-                    <x-filament::input.wrapper>
-                        <x-filament::input type="text" value="{{ $selectedBook->judul }}" disabled />
-                    </x-filament::input.wrapper>
-                </div>
 
-                <div>
-                    <label class="fi-fo-field-wrp-label inline-flex items-center gap-x-3">
-                        <span class="text-sm font-medium leading-6 text-gray-950 dark:text-white">
-                            Mata Pelajaran
-                        </span>
-                    </label>
-                    <x-filament::input.wrapper>
-                        <x-filament::input type="text" wire:model="mata_pelajaran" />
-                    </x-filament::input.wrapper>
-                </div>
-
-                <div>
-                    <label class="fi-fo-field-wrp-label inline-flex items-center gap-x-3">
-                        <span class="text-sm font-medium leading-6 text-gray-950 dark:text-white">
-                            Guru Pengampu
-                        </span>
-                    </label>
-                    <x-filament::input.wrapper>
-                        <x-filament::input type="text" wire:model="guru_pengampu" />
-                    </x-filament::input.wrapper>
-                </div>
-
-                <div>
-                    <label class="fi-fo-field-wrp-label inline-flex items-center gap-x-3">
-                        <span class="text-sm font-medium leading-6 text-gray-950 dark:text-white">
-                            Kelas/Keperluan
-                        </span>
-                    </label>
-                    <x-filament::input.wrapper>
-                        <x-filament::input type="text" wire:model="kelas_keperluan" />
-                    </x-filament::input.wrapper>
-                </div>
-
-                <div>
-                    <label class="fi-fo-field-wrp-label inline-flex items-center gap-x-3">
-                        <span class="text-sm font-medium leading-6 text-gray-950 dark:text-white">
-                            Jumlah (Stok: {{ $selectedBook->stok }})
-                        </span>
-                    </label>
-                    <x-filament::input.wrapper>
-                        <x-filament::input type="number" wire:model="jumlah" min="1" max="{{ $selectedBook->stok }}" />
-                    </x-filament::input.wrapper>
-                </div>
-
-                <div>
-                    <label class="fi-fo-field-wrp-label inline-flex items-center gap-x-3">
-                        <span class="text-sm font-medium leading-6 text-gray-950 dark:text-white">
-                            Tanggal Pinjam
-                        </span>
-                    </label>
-                    <x-filament::input.wrapper>
-                        <x-filament::input type="date" wire:model="loan_date" />
-                    </x-filament::input.wrapper>
-                </div>
-
-                <div>
-                    <label class="fi-fo-field-wrp-label inline-flex items-center gap-x-3">
-                        <span class="text-sm font-medium leading-6 text-gray-950 dark:text-white">
-                            Tanggal Kembali
-                        </span>
-                    </label>
-                    <x-filament::input.wrapper>
-                        <x-filament::input type="date" wire:model="return_date" />
-                    </x-filament::input.wrapper>
-                </div>
-
-                <div class="md:col-span-2">
-                    <label class="fi-fo-field-wrp-label inline-flex items-center gap-x-3">
-                        <span class="text-sm font-medium leading-6 text-gray-950 dark:text-white">
-                            Catatan
-                        </span>
-                    </label>
-                    <x-filament::input.wrapper>
-                        <textarea
-                            wire:model="notes"
-                            rows="3"
-                            class="fi-input block w-full border-none py-1.5 text-base text-gray-950 transition duration-75 placeholder:text-gray-400 focus:ring-0 disabled:text-gray-500 disabled:[-webkit-text-fill-color:theme(colors.gray.500)] disabled:placeholder:[-webkit-text-fill-color:theme(colors.gray.400)] dark:text-white dark:placeholder:text-gray-500 dark:disabled:text-gray-400 dark:disabled:[-webkit-text-fill-color:theme(colors.gray.400)] dark:disabled:placeholder:[-webkit-text-fill-color:theme(colors.gray.500)] sm:text-sm sm:leading-6 bg-white dark:bg-white/5 [&:not(:has(+ .fi-input-wrp-hint))]:rounded-lg [&:not(:has(+ .fi-input-wrp-hint))]:shadow-sm [&:not(:has(+ .fi-input-wrp-hint))]:ring-1 [&:not(:has(+ .fi-input-wrp-hint))]:ring-gray-950/10 [&:not(:has(+ .fi-input-wrp-hint))]:ring-inset focus:[&:not(:has(+ .fi-input-wrp-hint))]:ring-2 focus:[&:not(:has(+ .fi-input-wrp-hint))]:ring-primary-600 disabled:[&:not(:has(+ .fi-input-wrp-hint))]:bg-gray-50 disabled:[&:not(:has(+ .fi-input-wrp-hint))]:dark:bg-transparent [&:has(+ .fi-input-wrp-hint)]:rounded-t-lg [&:has(+ .fi-input-wrp-hint)]:shadow-sm [&:has(+ .fi-input-wrp-hint)]:ring-1 [&:has(+ .fi-input-wrp-hint)]:ring-gray-950/10 [&:has(+ .fi-input-wrp-hint)]:ring-inset focus:[&:has(+ .fi-input-wrp-hint)]:ring-2 focus:[&:has(+ .fi-input-wrp-hint)]:ring-primary-600 disabled:[&:has(+ .fi-input-wrp-hint)]:bg-gray-50 disabled:[&:has(+ .fi-input-wrp-hint)]:dark:bg-transparent dark:[&:not(:has(+ .fi-input-wrp-hint))]:ring-white/20 dark:focus:[&:not(:has(+ .fi-input-wrp-hint))]:ring-primary-500 dark:disabled:[&:not(:has(+ .fi-input-wrp-hint))]:ring-white/10 dark:[&:has(+ .fi-input-wrp-hint)]:ring-white/20 dark:focus:[&:has(+ .fi-input-wrp-hint)]:ring-primary-500 dark:disabled:[&:has(+ .fi-input-wrp-hint)]:ring-white/10"
-                            placeholder="Masukkan catatan tambahan (opsional)"
-                        ></textarea>
-                    </x-filament::input.wrapper>
-                </div>
-            </div>
-            
-            <div class="mt-4 flex justify-end space-x-2">
-                <x-filament::button
-                    wire:click="cancelSelection"
-                    color="gray"
-                    outlined
-                >
-                    Batal
-                </x-filament::button>
-                <x-filament::button
-                    wire:click="submitLoanRequest"
-                    wire:loading.attr="disabled"
-                    wire:target="submitLoanRequest"
-                >
-                    <span wire:loading.remove wire:target="submitLoanRequest">
-                        Ajukan Peminjaman
-                    </span>
-                    <span wire:loading wire:target="submitLoanRequest" class="flex items-center">
-                        <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                        </svg>
-                        Memproses...
-                    </span>
-                </x-filament::button>
-            </div>
-        </div>
-    @endif
 
     <!-- Daftar Buku -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
@@ -379,60 +247,71 @@
                 <!-- Konten Buku -->
                 <div class="p-4 flex flex-col h-full">
                     <!-- Judul Buku -->
-                    <h3 class="text-lg font-bold mb-2 text-gray-900 dark:text-white line-clamp-2 leading-tight">
+                    <h3 class="text-base font-bold mb-3 text-gray-900 dark:text-white line-clamp-2 leading-snug">
                         {{ $book->judul }}
                     </h3>
 
                     <!-- Informasi Buku -->
-                    <div class="info-grid text-sm mb-4 flex-grow">
-                        <div class="info-item">
-                            <span class="info-label font-medium text-gray-500 dark:text-gray-400">Kode:</span>
-                            <span class="text-gray-700 dark:text-gray-300 font-mono text-xs bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded-md">
+                    <div class="space-y-2 text-sm flex-grow">
+                        <div class="flex items-center justify-between">
+                            <span class="text-gray-500 dark:text-gray-400 text-xs">Kode:</span>
+                            <span class="text-gray-700 dark:text-gray-300 font-mono text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded">
                                 {{ $book->kode_buku }}
                             </span>
                         </div>
 
-                        <div class="info-item">
-                            <span class="info-label font-medium text-gray-500 dark:text-gray-400">Penulis:</span>
-                            <span class="text-gray-700 dark:text-gray-300 line-clamp-1 font-medium">{{ $book->penulis }}</span>
+                        <div class="flex items-start justify-between">
+                            <span class="text-gray-500 dark:text-gray-400 text-xs">Penulis:</span>
+                            <span class="text-gray-700 dark:text-gray-300 text-xs font-medium text-right line-clamp-1 max-w-[60%]">{{ $book->penulis }}</span>
                         </div>
 
-                        <div class="info-item">
-                            <span class="info-label font-medium text-gray-500 dark:text-gray-400">Mapel:</span>
-                            <span class="text-gray-700 dark:text-gray-300 line-clamp-1">{{ $book->mata_pelajaran }}</span>
+                        <div class="flex items-start justify-between">
+                            <span class="text-gray-500 dark:text-gray-400 text-xs">Mapel:</span>
+                            <span class="text-gray-700 dark:text-gray-300 text-xs text-right line-clamp-1 max-w-[60%]">{{ $book->mata_pelajaran }}</span>
                         </div>
 
-                        <div class="info-item">
-                            <span class="info-label font-medium text-gray-500 dark:text-gray-400">Kelas:</span>
-                            <span class="inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-semibold bg-blue-100 text-blue-800 dark:bg-blue-900/40 dark:text-blue-300 border border-blue-200 dark:border-blue-700">
+                        <div class="flex items-center justify-between">
+                            <span class="text-gray-500 dark:text-gray-400 text-xs">Kelas:</span>
+                            <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900/40 dark:text-blue-300">
                                 {{ $book->kelas }}
                             </span>
                         </div>
 
-                        <div class="flex items-center justify-between pt-3 mt-2 border-t border-gray-100 dark:border-gray-700">
-                            <span class="font-semibold text-gray-600 dark:text-gray-400">Stok Tersedia:</span>
-                            <div class="flex items-center space-x-2">
-                                <span class="font-bold text-xl @if($book->stok > 0) text-green-600 dark:text-green-400 @else text-red-600 dark:text-red-400 @endif">
+                        <div class="flex items-center justify-between pt-2 mt-2 border-t border-gray-100 dark:border-gray-700">
+                            <span class="font-medium text-gray-600 dark:text-gray-400 text-xs">Stok:</span>
+                            <div class="flex items-center space-x-1">
+                                <span class="font-bold text-lg @if($book->stok > 0) text-green-600 dark:text-green-400 @else text-red-600 dark:text-red-400 @endif">
                                     {{ $book->stok }}
                                 </span>
                                 @if($book->stok > 0)
-                                    <span class="text-xs text-green-600 dark:text-green-400 font-medium">unit</span>
+                                    <span class="text-xs text-green-600 dark:text-green-400">unit</span>
                                 @endif
                             </div>
                         </div>
                     </div>
 
                     <!-- Tombol Aksi -->
-                    <div class="mt-auto">
+                    <div class="mt-3">
                         @if($book->stok > 0)
                             <x-filament::button
-                                wire:click="selectBook({{ $book->id }})"
+                                wire:click="goToLoanForm({{ $book->id }})"
+                                wire:loading.attr="disabled"
+                                wire:target="goToLoanForm({{ $book->id }})"
                                 size="sm"
                                 class="w-full justify-center"
                                 color="primary"
                             >
-                                <x-heroicon-o-plus class="w-4 h-4 mr-1" />
-                                Pinjam Buku
+                                <span wire:loading.remove wire:target="goToLoanForm({{ $book->id }})">
+                                    <x-heroicon-o-plus class="w-4 h-4 mr-1" />
+                                    Pinjam Buku
+                                </span>
+                                <span wire:loading wire:target="goToLoanForm({{ $book->id }})" class="flex items-center">
+                                    <svg class="animate-spin -ml-1 mr-2 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                    </svg>
+                                    Memuat...
+                                </span>
                             </x-filament::button>
                         @else
                             <x-filament::button
