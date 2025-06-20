@@ -288,7 +288,7 @@
                     </div>
 
                     <!-- Tombol Aksi -->
-                    <div class="border-4 border-red-500 bg-yellow-200 p-2">
+                    <div class="mt-3 pt-2">
                         @if($book->stok > 0)
                             <x-filament::button
                                 wire:click="goToLoanForm({{ $book->id }})"
@@ -298,8 +298,8 @@
                                 class="w-full justify-center"
                                 color="primary"
                             >
-                                <span wire:loading.remove wire:target="goToLoanForm({{ $book->id }})">
-                                    <x-heroicon-o-plus class="w-4 h-4" />
+                                <span wire:loading.remove wire:target="goToLoanForm({{ $book->id }})" class="flex items-center">
+                                    <x-heroicon-o-plus class="w-4 h-4 mr-1.5" />
                                     Pinjam Buku
                                 </span>
                                 <span wire:loading wire:target="goToLoanForm({{ $book->id }})" class="flex items-center">
@@ -317,22 +317,9 @@
                                 color="gray"
                                 class="w-full justify-center"
                             >
-                                <x-heroicon-o-x-mark class="w-4 h-4 mr-1" />
+                                <x-heroicon-o-x-mark class="w-4 h-4 mr-1.5" />
                                 Stok Habis
                             </x-filament::button>
-                        @endif
-                        @if($book->stok > 0)
-                        @else
-                            <button
-                                type="button"
-                                disabled
-                                class="w-full mt-2 bg-red-500 dark:bg-red-600 text-white font-semibold py-2 px-3 rounded-md cursor-not-allowed flex items-center justify-center space-x-1.5 opacity-75 text-sm"
-                            >
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                                </svg>
-                                <span>Stok Habis</span>
-                            </button>
                         @endif
                     </div>
                 </div>

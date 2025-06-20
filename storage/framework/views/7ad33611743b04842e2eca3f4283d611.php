@@ -528,7 +528,7 @@
                     </div>
 
                     <!-- Tombol Aksi -->
-                    <div class="border-4 border-red-500 bg-yellow-200 p-2">
+                    <div class="mt-3 pt-2">
                         <!--[if BLOCK]><![endif]--><?php if($book->stok > 0): ?>
                             <?php if (isset($component)) { $__componentOriginal6330f08526bbb3ce2a0da37da512a11f = $component; } ?>
 <?php if (isset($attributes)) { $__attributesOriginal6330f08526bbb3ce2a0da37da512a11f = $attributes; } ?>
@@ -540,7 +540,7 @@
 <?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
 <?php endif; ?>
 <?php $component->withAttributes(['wire:click' => 'goToLoanForm('.e($book->id).')','wire:loading.attr' => 'disabled','wire:target' => 'goToLoanForm('.e($book->id).')','size' => 'sm','class' => 'w-full justify-center','color' => 'primary']); ?>
-                                <span wire:loading.remove wire:target="goToLoanForm(<?php echo e($book->id); ?>)">
+                                <span wire:loading.remove wire:target="goToLoanForm(<?php echo e($book->id); ?>)" class="flex items-center">
                                     <?php if (isset($component)) { $__componentOriginal643fe1b47aec0b76658e1a0200b34b2c = $component; } ?>
 <?php if (isset($attributes)) { $__attributesOriginal643fe1b47aec0b76658e1a0200b34b2c = $attributes; } ?>
 <?php $component = BladeUI\Icons\Components\Svg::resolve([] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
@@ -550,7 +550,7 @@
 <?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
 <?php $attributes = $attributes->except(\BladeUI\Icons\Components\Svg::ignoredParameterNames()); ?>
 <?php endif; ?>
-<?php $component->withAttributes(['class' => 'w-4 h-4']); ?>
+<?php $component->withAttributes(['class' => 'w-4 h-4 mr-1.5']); ?>
 <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__attributesOriginal643fe1b47aec0b76658e1a0200b34b2c)): ?>
@@ -600,7 +600,7 @@
 <?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
 <?php $attributes = $attributes->except(\BladeUI\Icons\Components\Svg::ignoredParameterNames()); ?>
 <?php endif; ?>
-<?php $component->withAttributes(['class' => 'w-4 h-4 mr-1']); ?>
+<?php $component->withAttributes(['class' => 'w-4 h-4 mr-1.5']); ?>
 <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__attributesOriginal643fe1b47aec0b76658e1a0200b34b2c)): ?>
@@ -622,19 +622,6 @@
 <?php $component = $__componentOriginal6330f08526bbb3ce2a0da37da512a11f; ?>
 <?php unset($__componentOriginal6330f08526bbb3ce2a0da37da512a11f); ?>
 <?php endif; ?>
-                        <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
-                        <!--[if BLOCK]><![endif]--><?php if($book->stok > 0): ?>
-                        <?php else: ?>
-                            <button
-                                type="button"
-                                disabled
-                                class="w-full mt-2 bg-red-500 dark:bg-red-600 text-white font-semibold py-2 px-3 rounded-md cursor-not-allowed flex items-center justify-center space-x-1.5 opacity-75 text-sm"
-                            >
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                                </svg>
-                                <span>Stok Habis</span>
-                            </button>
                         <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
                     </div>
                 </div>
